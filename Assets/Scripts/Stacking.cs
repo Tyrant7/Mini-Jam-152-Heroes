@@ -12,6 +12,8 @@ public class Stacking : MonoBehaviour
 
     private List<(FoodItem, GameObject)> stackedObjects = new List<(FoodItem, GameObject)>();
 
+    [SerializeField] GameObject previewEffectPrefab;
+
     private void Update()
     {
         if (next == null)
@@ -40,7 +42,9 @@ public class Stacking : MonoBehaviour
         {
             Destroy(previewObject);
         }
-        previewObject = Instantiate(next.Prefab, Vector3.zero, nextRotation, transform);
+        previewObject = Instantiate(previewEffectPrefab, Vector3.zero, Quaternion.identity, transform);
+        Instantiate(next.Prefab, Vector3.zero, nextRotation, previewObject.transform);
+
 
         // Disable all physics on the preview object
         Rigidbody[] rbs = previewObject.GetComponentsInChildren<Rigidbody>();

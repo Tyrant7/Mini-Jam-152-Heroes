@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5956218316154128704}
   - component: {fileID: 338026279257715812}
   - component: {fileID: -5734039479596427149}
+  - component: {fileID: 6682992949539739578}
   m_Layer: 0
   m_Name: SI_Food_Bakery_Cookie_01
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 5956218316156064546}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.283, y: 0.97, z: 0.549}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -115,3 +116,15 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 0ab925f94d39e1646adb20f017c13b7b, type: 3}
+--- !u!114 &6682992949539739578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5956218316156064546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97790119fe1c2974a9f96f685b51435c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

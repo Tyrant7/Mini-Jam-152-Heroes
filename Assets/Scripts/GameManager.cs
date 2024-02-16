@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
         stackingController.gameObject.SetActive(false);
 
         // Wait for the items to settle
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
 
         // Track our bread
         GameObject topBread = stackedFood[stackedFood.Count - 1].Item2;
