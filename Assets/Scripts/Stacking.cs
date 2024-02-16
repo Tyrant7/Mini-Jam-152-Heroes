@@ -62,7 +62,7 @@ public class Stacking : MonoBehaviour
     public Sandwich ResetSandwich()
     {
         Sandwich cache = sandwich;
-        sandwich = new Sandwich(Instantiate(sandwichRootPrefab, new Vector3(0, 0.75f, 0), Quaternion.identity));
+        sandwich = new Sandwich(Instantiate(sandwichRootPrefab, new Vector3(0, 0.78f, 0), Quaternion.identity));
         return cache;
     }
 }

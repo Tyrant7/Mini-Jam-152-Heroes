@@ -77,30 +77,39 @@ public class GameManager : MonoBehaviour
         Dictionary<(FoodItem, GameObject), int> scores = new Dictionary<(FoodItem, GameObject), int>();
         foreach (var item in sandwich.Items)
         {
+            float currentScore = 0;
             if (item.Item2 == topBread)
             {
                 // Special case for top bread
                 // We'll give points based on how close it was
                 float dist = Mathf.Abs(topBread.transform.position.x - bottomBread.transform.position.x);
-                int currentScore = (int)Mathf.Ceil((1.5f - dist) * topBreadScoreWeight);
-                score += currentScore;
-                scores.Add(item, currentScore);
-                continue;
+                currentScore = (int)Mathf.Ceil((1.5f - dist) * topBreadScoreWeight);
             }
-
-            RaycastHit[] hits = Physics.RaycastAll(item.Item2.transform.position + Vector3.up, Vector3.down, 1000f);
-            foreach (RaycastHit hit in hits)
+            else
             {
-                if (!hit.transform.CompareTag("Bottom Bread"))
+                RaycastHit[] downHits = Physics.RaycastAll(item.Item2.transform.position + Vector3.up, Vector3.down, 1000f);
+                foreach (RaycastHit hit in downHits)
                 {
-                    continue;
+                    // Half of total points for each bread we're inline with
+                    if (hit.transform.CompareTag("Bottom Bread"))
+                    {
+                        currentScore += item.Item1.PointValue / 2;
+                    }
                 }
-
-                int currentScore = item.Item1.PointValue;
-                score += currentScore;
-                scores.Add(item, currentScore);
-                break;
+                RaycastHit[] upHits = Physics.RaycastAll(item.Item2.transform.position + Vector3.down, Vector3.down, 1000f);
+                foreach (RaycastHit hit in upHits)
+                {
+                    // Half of total points for each bread we're inline with
+                    if (hit.transform.CompareTag("Top Bread"))
+                    {
+                        currentScore += item.Item1.PointValue / 2;
+                    }
+                }
             }
+
+            int intScore = (int)Mathf.Ceil(currentScore);
+            score += intScore;
+            scores.Add(item, intScore);
         }
 
         // Disable all physics
@@ -121,19 +130,21 @@ public class GameManager : MonoBehaviour
         {
             GameObject jump = Instantiate(jumpPrefab);
             pair.Item2.transform.SetParent(jump.transform);
-            yield return new WaitForSeconds(0.35f);
             DisplayScore(pair.Item2, scores.GetValueOrDefault(pair, 0));
+            yield return new WaitForSeconds(0.35f);
             pair.Item2.transform.SetParent(sandwich.Root.transform);
             Destroy(jump);
         }
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(1f);
 
         Animator anim = sandwich.Root.GetComponent<Animator>();
         anim.Play("Wrap_Up");
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => !anim.GetCurrentAnimatorStateInfo(0).IsName("Wrap_Up"));
         Destroy(sandwich.Root);
+
+        ParticleSingleton.Instance.SpawnBigParticles(sandwich.Items[0].Item2.transform.position);
 
         Debug.Log("Finished!");
 
@@ -142,9 +153,10 @@ public class GameManager : MonoBehaviour
 
     private void DisplayScore(GameObject itemObject, int score)
     {
-        GameObject scoreText = Instantiate(scorePrefab, itemObject.transform.position + Vector3.one, Quaternion.identity);
+        GameObject scoreText = Instantiate(scorePrefab, itemObject.transform.position + new Vector3(0.5f, 0.5f, -1), Quaternion.identity);
         TextMeshProUGUI textComp = scoreText.GetComponentInChildren<TextMeshProUGUI>();
         textComp.text = score.ToString() + "$";
         textComp.color = score > 0 ? Color.green : Color.red;
+        Destroy(scoreText, 2);
     }
 }

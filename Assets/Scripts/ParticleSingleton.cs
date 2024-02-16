@@ -22,10 +22,16 @@ public class ParticleSingleton : MonoBehaviour
 
     #endregion
 
-    public GameObject stackParticles;
+    [SerializeField] GameObject stackParticles;
+    [SerializeField] GameObject bigDustParticles;
 
     public void SpawnStackParticles(Vector3 position)
     {
         Instantiate(stackParticles, position, Quaternion.identity, transform);
+    }
+
+    public void SpawnBigParticles(Vector3 position)
+    {
+        Instantiate(bigDustParticles, position, Quaternion.identity, transform);
     }
 }

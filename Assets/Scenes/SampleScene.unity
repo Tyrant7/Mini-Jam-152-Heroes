@@ -816,6 +816,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stackParticles: {fileID: 8152712039340925586, guid: 414b8197468c41d4a961c40ee350dda1,
     type: 3}
+  bigDustParticles: {fileID: 2627368940655226813, guid: 58d54e2c75e9d6549aacd7289e1c33a7,
+    type: 3}
 --- !u!1 &329508499
 GameObject:
   m_ObjectHideFlags: 0
