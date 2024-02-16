@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,9 +34,11 @@ public class GameManager : MonoBehaviour
 
     [Header("Visuals")]
     [SerializeField] DisplayQueue displayQueue;
+    [SerializeField] GameObject jumpPrefab;
 
     [Header("Scoring")]
     [SerializeField] float topBreadScoreWeight = 20;
+    [SerializeField] GameObject scorePrefab;
 
     public FoodItem GetNextFoodItem()
     {
@@ -47,10 +50,10 @@ public class GameManager : MonoBehaviour
             return next;
         }
 
-        var stack = stackingController.ResetStack();
-        if (stack.Count > 0)
+        Sandwich sandwich = stackingController.ResetSandwich();
+        if (sandwich != null)
         {
-            StartCoroutine(NextOrderAnimation(stack));
+            StartCoroutine(NextOrderAnimation(sandwich));
         }
 
         orderQueue = orderManager.GenerateOrder(orderLength);
@@ -58,7 +61,7 @@ public class GameManager : MonoBehaviour
         return orderQueue.Dequeue();
     }
 
-    private IEnumerator NextOrderAnimation(List<(FoodItem, GameObject)> stackedFood)
+    private IEnumerator NextOrderAnimation(Sandwich sandwich)
     {
         stackingController.gameObject.SetActive(false);
 
@@ -66,13 +69,13 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         // Track our bread
-        GameObject topBread = stackedFood[stackedFood.Count - 1].Item2;
-        GameObject bottomBread = stackedFood[0].Item2;
+        GameObject topBread = sandwich.Items[^1].Item2;
+        GameObject bottomBread = sandwich.Items[0].Item2;
 
         // Score each item
         int score = 0;
         Dictionary<(FoodItem, GameObject), int> scores = new Dictionary<(FoodItem, GameObject), int>();
-        foreach (var item in stackedFood)
+        foreach (var item in sandwich.Items)
         {
             if (item.Item2 == topBread)
             {
@@ -100,21 +103,48 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // Whisk items away one by one
-        stackedFood.Reverse();
-        foreach (var pair in stackedFood)
+        // Disable all physics
+        Rigidbody[] rbs = sandwich.Root.GetComponentsInChildren<Rigidbody>();
+        Collider[] colliders = sandwich.Root.GetComponentsInChildren<Collider>();
+        foreach (Rigidbody rb in rbs)
         {
-            pair.Item2.GetComponentInChildren<Rigidbody>().AddExplosionForce(1000, Vector3.zero, 100);
-            DisplayScore(pair.Item2, scores.GetValueOrDefault(pair, 0));
-            yield return new WaitForSeconds(0.5f);
+            Destroy(rb);
         }
+        foreach (Collider col in colliders)
+        {
+            Destroy(col);
+        }
+
+        // Make each ingredient jump and display the score we got for it
+        sandwich.Items.Reverse();
+        foreach (var pair in sandwich.Items)
+        {
+            GameObject jump = Instantiate(jumpPrefab);
+            pair.Item2.transform.SetParent(jump.transform);
+            yield return new WaitForSeconds(0.35f);
+            DisplayScore(pair.Item2, scores.GetValueOrDefault(pair, 0));
+            pair.Item2.transform.SetParent(sandwich.Root.transform);
+            Destroy(jump);
+        }
+
+        yield return new WaitForSeconds(5f);
+
+        Animator anim = sandwich.Root.GetComponent<Animator>();
+        anim.Play("Wrap_Up");
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => !anim.GetCurrentAnimatorStateInfo(0).IsName("Wrap_Up"));
+        Destroy(sandwich.Root);
+
+        Debug.Log("Finished!");
 
         stackingController.gameObject.SetActive(true);
     }
 
     private void DisplayScore(GameObject itemObject, int score)
     {
-        Debug.Log(itemObject.name + ": " + score);
-        // Display some text
+        GameObject scoreText = Instantiate(scorePrefab, itemObject.transform.position + Vector3.one, Quaternion.identity);
+        TextMeshProUGUI textComp = scoreText.GetComponentInChildren<TextMeshProUGUI>();
+        textComp.text = score.ToString() + "$";
+        textComp.color = score > 0 ? Color.green : Color.red;
     }
 }

@@ -10,9 +10,10 @@ public class Stacking : MonoBehaviour
     private GameObject previewObject;
     private Quaternion nextRotation;
 
-    private List<(FoodItem, GameObject)> stackedObjects = new List<(FoodItem, GameObject)>();
+    private Sandwich sandwich;
 
     [SerializeField] GameObject previewEffectPrefab;
+    [SerializeField] GameObject sandwichRootPrefab;
 
     private void Update()
     {
@@ -26,7 +27,7 @@ public class Stacking : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                stackedObjects.Add((next, Instantiate(next.Prefab, info.point, nextRotation)));
+                sandwich.Items.Add((next, Instantiate(next.Prefab, info.point, nextRotation, sandwich.Root.transform)));
                 SetNext();
             }
 
@@ -45,7 +46,6 @@ public class Stacking : MonoBehaviour
         previewObject = Instantiate(previewEffectPrefab, Vector3.zero, Quaternion.identity, transform);
         Instantiate(next.Prefab, Vector3.zero, nextRotation, previewObject.transform);
 
-
         // Disable all physics on the preview object
         Rigidbody[] rbs = previewObject.GetComponentsInChildren<Rigidbody>();
         Collider[] colliders = previewObject.GetComponentsInChildren<Collider>();
@@ -59,10 +59,10 @@ public class Stacking : MonoBehaviour
         }
     }
 
-    public List<(FoodItem, GameObject)> ResetStack()
+    public Sandwich ResetSandwich()
     {
-        List<(FoodItem, GameObject)> cache = new List<(FoodItem, GameObject)>(stackedObjects);
-        stackedObjects.Clear();
+        Sandwich cache = sandwich;
+        sandwich = new Sandwich(Instantiate(sandwichRootPrefab, new Vector3(0, 0.75f, 0), Quaternion.identity));
         return cache;
     }
 }

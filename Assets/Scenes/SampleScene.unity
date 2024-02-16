@@ -782,7 +782,11 @@ MonoBehaviour:
   orderLength: 10
   stackingController: {fileID: 2138127275}
   displayQueue: {fileID: 490769756}
+  jumpPrefab: {fileID: 8611691930888338681, guid: db5d8aaccf0a58d41a5803b66a19716c,
+    type: 3}
   topBreadScoreWeight: 20
+  scorePrefab: {fileID: 5772370399738340511, guid: e17c2cb5a452a1c4cb61dd394aea9ea5,
+    type: 3}
 --- !u!4 &316690669
 Transform:
   m_ObjectHideFlags: 0
@@ -1486,7 +1490,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -6756,6 +6760,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   previewEffectPrefab: {fileID: 1285964178149416541, guid: 28da4b43d75dcd046904392981bc6c94,
+    type: 3}
+  sandwichRootPrefab: {fileID: 7212042105509629070, guid: ee1217a0bfe2821478621a569bc9a36a,
     type: 3}
 --- !u!1001 &2145506154
 PrefabInstance:
