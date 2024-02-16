@@ -15,3 +15,4 @@ MonoBehaviour:
   Prefab: {fileID: 7939563495730843, guid: 8751fec05a650504f98ec5c201562d6e, type: 3}
   Icon: {fileID: 0}
   PointValue: 0
+  DontRotate: 1

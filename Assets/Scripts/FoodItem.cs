@@ -8,4 +8,5 @@ public class FoodItem : ScriptableObject
     public GameObject Prefab;
     public Sprite Icon;
     public int PointValue;
+    public bool DontRotate;
 }

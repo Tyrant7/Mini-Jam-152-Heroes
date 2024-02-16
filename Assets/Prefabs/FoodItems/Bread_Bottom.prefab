@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2121340063896484395}
   m_Layer: 0
   m_Name: Bread_Bottom
-  m_TagString: Untagged
+  m_TagString: Bottom Bread
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,6 +42,10 @@ PrefabInstance:
     - target: {fileID: 123242, guid: aa923da6b630dd447a78ffdde998541c, type: 3}
       propertyPath: m_Name
       value: SI_Food_Ingredients_BunBottom
+      objectReference: {fileID: 0}
+    - target: {fileID: 123242, guid: aa923da6b630dd447a78ffdde998541c, type: 3}
+      propertyPath: m_TagString
+      value: Bottom Bread
       objectReference: {fileID: 0}
     - target: {fileID: 456928, guid: aa923da6b630dd447a78ffdde998541c, type: 3}
       propertyPath: m_RootOrder
