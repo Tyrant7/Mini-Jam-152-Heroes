@@ -2,21 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct Order
+[System.Serializable]
+public class OrderManager
 {
-    private FoodItem item1;
-    private FoodItem item2;
+    [SerializeField] FoodItem bottomBread;
+    [SerializeField] FoodItem topBread;
+    [SerializeField] FoodItem[] foodItems;
+    [SerializeField] int maxSequence = 3;
 
-    public Order(FoodItem item1, FoodItem item2)
+    public Queue<FoodItem> GenerateOrder(int length)
     {
-        this.item1 = item1;
-        this.item2 = item2;
+        List<FoodItem> allItems = new List<FoodItem>(foodItems);
+        FoodItem item1 = allItems[Random.Range(0, allItems.Count)];
+        allItems.Remove(item1);
+        FoodItem item2 = allItems[Random.Range(0, allItems.Count)];
+        return GenerateQueue(item1, item2, length, maxSequence);
     }
 
-    public Queue<FoodItem> GenerateQueue(int length, int maxSequence)
+    private Queue<FoodItem> GenerateQueue(FoodItem item1, FoodItem item2, int length, int maxSequence)
     {
         FoodItem[] foods = new FoodItem[length];
-        for (int i = 0; i < length; i++)
+        foods[0] = bottomBread;
+        for (int i = 1; i < length - 1; i++)
         {
             FoodItem next = Random.Range(0, 2) == 0 ? item1 : item2;
 
@@ -41,6 +48,7 @@ public struct Order
 
             foods[i] = next;
         }
+        foods[length - 1] = topBread;
         return new Queue<FoodItem>(foods);
     }
 }
