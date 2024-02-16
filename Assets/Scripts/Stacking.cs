@@ -6,8 +6,10 @@ using UnityEngine.EventSystems;
 public class Stacking : MonoBehaviour
 {
     [SerializeField] LayerMask layerMask;
-    private GameObject next;
+    private FoodItem next;
     private GameObject previewObject;
+
+    private List<(FoodItem, GameObject)> stackedObjects = new List<(FoodItem, GameObject)>();
 
     private void Update()
     {
@@ -21,7 +23,7 @@ public class Stacking : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Instantiate(next, info.point, Quaternion.identity);
+                stackedObjects.Add((next, Instantiate(next.Prefab, info.point, Quaternion.identity)));
                 SetNext();
             }
 
@@ -31,13 +33,12 @@ public class Stacking : MonoBehaviour
 
     private void SetNext()
     {
-        FoodItem item = GameManager.Instance.GetNextFoodItem();
-        next = item.Prefab;
+        next = GameManager.Instance.GetNextFoodItem();
         if (previewObject != null)
         {
             Destroy(previewObject);
         }
-        previewObject = Instantiate(next, transform);
+        previewObject = Instantiate(next.Prefab, transform);
 
         // Disable all physics on the preview object
         Rigidbody[] rbs = previewObject.GetComponentsInChildren<Rigidbody>();
@@ -50,5 +51,12 @@ public class Stacking : MonoBehaviour
         {
             Destroy(col);
         }
+    }
+
+    public List<(FoodItem, GameObject)> ResetStack()
+    {
+        List<(FoodItem, GameObject)> cache = new List<(FoodItem, GameObject)>(stackedObjects);
+        stackedObjects.Clear();
+        return cache;
     }
 }

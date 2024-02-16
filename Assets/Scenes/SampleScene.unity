@@ -773,10 +773,12 @@ MonoBehaviour:
     bottomBread: {fileID: 11400000, guid: 328c4ef5a5c470848a25ad9c71e08bad, type: 2}
     topBread: {fileID: 11400000, guid: 6ea51a81aff5a5845b39b1e55b38decd, type: 2}
     foodItems:
-    - {fileID: 11400000, guid: 328c4ef5a5c470848a25ad9c71e08bad, type: 2}
-    - {fileID: 11400000, guid: 6ea51a81aff5a5845b39b1e55b38decd, type: 2}
+    - {fileID: 11400000, guid: dcd709c08c1085b40804058f6ed97fab, type: 2}
+    - {fileID: 11400000, guid: c6a980f8b32451b44bfcbd7d2af5afeb, type: 2}
+    - {fileID: 11400000, guid: 5e020e26b2eeca242b933881ce8ed4ae, type: 2}
+    - {fileID: 11400000, guid: 75d93062002387941a274ff7403e324f, type: 2}
     maxSequence: 3
-  orderLength: 2
+  orderLength: 10
   stackingController: {fileID: 2138127275}
 --- !u!4 &316690669
 Transform:
