@@ -27,26 +27,19 @@ public class GameManager : MonoBehaviour
     public delegate void SandwichEventHandler();
     public event SandwichEventHandler OnSandwichCompleted;
 
+    private GameRuntimeObjects environment;
+
     [Header("Order Management")]
     [SerializeField] OrderManager orderManager = new OrderManager();
     [SerializeField] int orderLength = 5;
 
     private Queue<FoodItem> orderQueue = new Queue<FoodItem>();
 
-    [Header("Stacking")]
-    [SerializeField] Stacking stackingController;
-    [SerializeField] OrderSelection orderSelection;
-
     [Header("Visuals")]
-    [SerializeField] DisplayQueue displayQueue;
     [SerializeField] GameObject jumpPrefab;
-    [SerializeField] Lineup lineup;
-    [SerializeField] CounterVisual counterVisual;
-    [SerializeField] RegisterVisual registerVisual;
 
     [Header("Scoring")]
     [SerializeField] GameObject scorePrefab;
-    [SerializeField] ScoreCounter scoreCounter;
 
     [Header("Days")]
     private const int BaseCustomerCount = 1;
@@ -75,9 +68,11 @@ public class GameManager : MonoBehaviour
 
     private void StartDay()
     {
+        environment = FindObjectOfType<GameRuntimeObjects>();
+
         int bonus = UpgradeManager.Instance.GetUpgradeBonuses().CustomerBonus;
         totalOrders = BaseCustomerCount + bonus;
-        lineup.InitializeCustomers(totalOrders);
+        environment.lineup.InitializeCustomers(totalOrders);
 
         if (totalOrders > 0)
         {
@@ -89,18 +84,18 @@ public class GameManager : MonoBehaviour
         }
 
         dailyStats = new DayStats(0, 0, 0, 0);
-        scoreCounter.UpdateDisplay(0);
+        environment.scoreCounter.UpdateDisplay(0);
 
-        stackingController.gameObject.SetActive(false);
-        orderSelection.gameObject.SetActive(true);
-        counterVisual.SetVisual(lineup.GrabNext(), false);
-        counterVisual.SetVisual(lineup.GrabNext(), true);
+        environment.stackingController.gameObject.SetActive(false);
+        environment.orderSelection.gameObject.SetActive(true);
+        environment.counterVisual.SetVisual(environment.lineup.GrabNext(), false);
+        environment.counterVisual.SetVisual(environment.lineup.GrabNext(), true);
     }
 
     private void EndDay()
     {
-        stackingController.gameObject.SetActive(false);
-        orderSelection.gameObject.SetActive(false);
+        environment.stackingController.gameObject.SetActive(false);
+        environment.orderSelection.gameObject.SetActive(false);
 
         // Find true accuracy based on completed orders
         dailyStats.Accuracy /= dailyStats.OrdersFulfilled;
@@ -138,22 +133,22 @@ public class GameManager : MonoBehaviour
         {
             var list = new List<FoodItem>(orderQueue);
             list.Add(next);
-            displayQueue.UpdateDisplay(list);
+            environment.displayQueue.UpdateDisplay(list);
             return next;
         }
 
-        Sandwich sandwich = stackingController.ResetSandwich();
+        Sandwich sandwich = environment.stackingController.ResetSandwich();
         if (sandwich != null)
         {
             StartCoroutine(NextOrderAnimation(sandwich));
         }
-        displayQueue.UpdateDisplay(new List<FoodItem>());
+        environment.displayQueue.UpdateDisplay(new List<FoodItem>());
         return null;
     }
 
     private IEnumerator NextOrderAnimation(Sandwich sandwich)
     {
-        stackingController.gameObject.SetActive(false);
+        environment.stackingController.gameObject.SetActive(false);
 
         // Wait for the items to settle
         yield return new WaitForSeconds(3f);
@@ -235,7 +230,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Game starts back up again as soon as sandwich is done counting
-        orderSelection.gameObject.SetActive(true);
+        environment.orderSelection.gameObject.SetActive(true);
 
         Animator anim = sandwich.Root.GetComponent<Animator>();
         anim.Play("Wrap_Up");
@@ -252,7 +247,7 @@ public class GameManager : MonoBehaviour
         dailyStats.Accuracy += (float)totalScore / maxScore;
         dailyStats.OrdersFulfilled++;
 
-        scoreCounter.UpdateDisplay(dailyStats.Score);
+        environment.scoreCounter.UpdateDisplay(dailyStats.Score);
 
         // Check day end
         if (dailyStats.OrdersFulfilled >= totalOrders)
@@ -284,15 +279,15 @@ public class GameManager : MonoBehaviour
 
         // Get the next order
         orderQueue = orderManager.CreateOrder(orderLength, left);
-        orderSelection.gameObject.SetActive(false);
+        environment.orderSelection.gameObject.SetActive(false);
 
         // Get the next customer up there
-        registerVisual.TakeCustomer(left ? counterVisual.Left : counterVisual.Right, !left && counterVisual.Left != null);
-        CustomerVisual next = lineup.GrabNext();
+        environment.registerVisual.TakeCustomer(left ? environment.counterVisual.Left : environment.counterVisual.Right, !left && environment.counterVisual.Left != null);
+        CustomerVisual next = environment.lineup.GrabNext();
         if (next != null)
         {
             // Only create an order if we have remaining customers
-            counterVisual.SetVisual(next, left);
+            environment.counterVisual.SetVisual(next, left);
             orderManager.InitializeOrder(left);
         }
         else
@@ -301,8 +296,8 @@ public class GameManager : MonoBehaviour
         }
 
         // We can start stacking once we have an active order
-        stackingController.ResetSandwich();
-        stackingController.gameObject.SetActive(true);
+        environment.stackingController.ResetSandwich();
+        environment.stackingController.gameObject.SetActive(true);
     }
 
     public FoodItem[] GetCurrentOrder(bool left)
