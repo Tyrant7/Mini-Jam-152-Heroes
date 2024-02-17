@@ -51,6 +51,7 @@ public class RegisterVisual : MonoBehaviour
             return;
         }
         ParticleSingleton.Instance.SpawnBigParticles(currentVisual.gameObject.transform.position);
+        ParticleSingleton.Instance.SpawnBigParticles(currentVisual.gameObject.transform.position + Vector3.up);
         Destroy(currentVisual.gameObject);
     }
 }
