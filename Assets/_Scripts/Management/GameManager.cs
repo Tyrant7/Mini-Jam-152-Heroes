@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -44,22 +45,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] RegisterVisual registerVisual;
 
     [Header("Scoring")]
-    [SerializeField] float topBreadScoreWeight = 20;
     [SerializeField] GameObject scorePrefab;
     [SerializeField] ScoreCounter scoreCounter;
 
     [Header("Days")]
     [SerializeField] int dailyOrders = 4;
     private int totalOrders = 0;
-    private int ordersCompleted = 0;
-    private int dailyScore = 0;
+
+    private DayStats dailyStats;
+    private List<DayStats> pastStats = new List<DayStats>();
 
     private void Start()
     {
-        StartLevel(dailyOrders);
+        StartDay(dailyOrders);
     }
 
-    private void StartLevel(int customerCount)
+    #region Day Management
+
+    private void StartDay(int customerCount)
     {
         orderManager.InitializeOrders();
 
@@ -70,9 +73,39 @@ public class GameManager : MonoBehaviour
         counterVisual.SetVisual(lineup.GrabNext(), true);
 
         totalOrders = customerCount;
-        ordersCompleted = 0;
-        dailyScore = 0;
+        dailyStats = new DayStats(0, 0, 0, 0);
+        scoreCounter.UpdateDisplay(0);
     }
+
+    private void EndDay()
+    {
+        stackingController.gameObject.SetActive(false);
+        orderSelection.gameObject.SetActive(false);
+
+        // Find true accuracy based on completed orders
+        dailyStats.Accuracy /= dailyStats.OrdersFulfilled;
+        pastStats.Add(dailyStats);
+
+        StartCoroutine(EndDayAnimation());
+    }
+
+    private IEnumerator EndDayAnimation()
+    {
+        yield return new WaitForSeconds(1f);
+        SceneLoader.Instance.LoadScene("Day_Menu");
+    }
+
+    public DayStats GetLastDayStats()
+    {
+        return pastStats[^1];
+    }
+
+    public int GetDayNumber()
+    {
+        return pastStats.Count;
+    }
+
+    #endregion
 
     #region Stacking
 
@@ -108,6 +141,7 @@ public class GameManager : MonoBehaviour
 
         // Score each item
         int totalScore = 0;
+        int maxScore = 0;
         Dictionary<(FoodItem, GameObject), int> scores = new Dictionary<(FoodItem, GameObject), int>();
         foreach (var item in sandwich.Items)
         {
@@ -117,7 +151,7 @@ public class GameManager : MonoBehaviour
                 // Special case for top bread
                 // We'll give points based on how close it was
                 float dist = Mathf.Abs(topBread.transform.position.x - bottomBread.transform.position.x);
-                currentScore = (int)Mathf.Ceil((1.5f - dist) * topBreadScoreWeight);
+                currentScore = (int)Mathf.Ceil((1f - dist) * item.Item1.PointValue);
             }
             else
             {
@@ -141,6 +175,7 @@ public class GameManager : MonoBehaviour
                 }
             }
 
+            maxScore += item.Item1.PointValue;
             int intScore = (int)Mathf.Ceil(currentScore);
             totalScore += intScore;
             scores.Add(item, intScore);
@@ -187,12 +222,17 @@ public class GameManager : MonoBehaviour
 
         ParticleSingleton.Instance.SpawnBigParticles(sandwich.Items[0].Item2.transform.position);
         DisplayScore(sandwich.Items[0].Item2.transform.position, totalScore, Color.yellow);
-        scoreCounter.UpdateDisplay(totalScore);
         OnSandwichCompleted?.Invoke();
 
-        dailyScore += totalScore;
-        ordersCompleted++;
-        if (ordersCompleted >= totalOrders)
+        // Update stats
+        dailyStats.Score += totalScore;
+        dailyStats.Accuracy += (float)totalScore / maxScore;
+        dailyStats.OrdersFulfilled++;
+
+        scoreCounter.UpdateDisplay(dailyStats.Score);
+
+        // Check day end
+        if (dailyStats.OrdersFulfilled >= totalOrders)
         {
             EndDay();
         }
@@ -248,12 +288,4 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
-
-    private void EndDay()
-    {
-        stackingController.gameObject.SetActive(false);
-        orderSelection.gameObject.SetActive(false);
-
-        Debug.Log("Night complete!");
-    }
 }

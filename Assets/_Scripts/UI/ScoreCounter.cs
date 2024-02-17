@@ -11,6 +11,9 @@ public class ScoreCounter : MonoBehaviour
     public void UpdateDisplay(int score)
     {
         scoreText.text = score.ToString() + "$";
-        textAnim.Play("Bump");
+        if (score > 0)
+        {
+            textAnim.Play("Bump");
+        }
     }
 }
