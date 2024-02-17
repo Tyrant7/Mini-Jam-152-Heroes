@@ -19,7 +19,8 @@ public class CounterVisual : MonoBehaviour
         if (Left != null && Left.IsClose() && Left.GetTarget() == standpointLeft)
         {
             FoodItem[] order = GameManager.Instance.GetCurrentOrder(true);
-            hintLeft.Show(order[0].Icon, order[1].Icon);
+            if (order != null)
+                hintLeft.Show(order[0].Icon, order[1].Icon);
         }
         else
         {
@@ -29,7 +30,8 @@ public class CounterVisual : MonoBehaviour
         if (Right != null && Right.IsClose() && Right.GetTarget() == standpointRight)
         {
             FoodItem[] order = GameManager.Instance.GetCurrentOrder(false);
-            hintRight.Show(order[0].Icon, order[1].Icon);
+            if (order != null)
+                hintRight.Show(order[0].Icon, order[1].Icon);
         }
         else
         {

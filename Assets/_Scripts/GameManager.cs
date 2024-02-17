@@ -43,26 +43,35 @@ public class GameManager : MonoBehaviour
     [SerializeField] CounterVisual counterVisual;
     [SerializeField] RegisterVisual registerVisual;
 
-    [SerializeField] int NPCCount = 4;
-
     [Header("Scoring")]
     [SerializeField] float topBreadScoreWeight = 20;
     [SerializeField] GameObject scorePrefab;
+    [SerializeField] ScoreCounter scoreCounter;
+
+    [Header("Days")]
+    [SerializeField] int dailyOrders = 4;
+    private int totalOrders = 0;
+    private int ordersCompleted = 0;
+    private int dailyScore = 0;
 
     private void Start()
     {
-        StartLevel();
+        StartLevel(dailyOrders);
     }
 
-    private void StartLevel()
+    private void StartLevel(int customerCount)
     {
         orderManager.InitializeOrders();
 
         stackingController.gameObject.SetActive(false);
         orderSelection.gameObject.SetActive(true);
-        lineup.InitializeCustomers(NPCCount);
+        lineup.InitializeCustomers(customerCount);
         counterVisual.SetVisual(lineup.GrabNext(), false);
         counterVisual.SetVisual(lineup.GrabNext(), true);
+
+        totalOrders = customerCount;
+        ordersCompleted = 0;
+        dailyScore = 0;
     }
 
     #region Stacking
@@ -178,7 +187,15 @@ public class GameManager : MonoBehaviour
 
         ParticleSingleton.Instance.SpawnBigParticles(sandwich.Items[0].Item2.transform.position);
         DisplayScore(sandwich.Items[0].Item2.transform.position, totalScore, Color.yellow);
+        scoreCounter.UpdateDisplay(totalScore);
         OnSandwichCompleted?.Invoke();
+
+        dailyScore += totalScore;
+        ordersCompleted++;
+        if (ordersCompleted >= totalOrders)
+        {
+            EndDay();
+        }
     }
 
     private void DisplayScore(Vector3 position, int score, Color colour)
@@ -196,16 +213,33 @@ public class GameManager : MonoBehaviour
 
     public void SelectOrder(bool left)
     {
+        if ((left && orderManager.orderLeft == null) ||
+            (!left && orderManager.orderRight == null))
+        {
+            return;
+        }
+
+        // Get the next order
         orderQueue = orderManager.CreateOrder(orderLength, left);
         orderSelection.gameObject.SetActive(false);
+
+        // Get the next customer up there
+        registerVisual.TakeCustomer(left ? counterVisual.Left : counterVisual.Right, !left && counterVisual.Left != null);
+        CustomerVisual next = lineup.GrabNext();
+        if (next != null)
+        {
+            // Only create an order if we have remaining customers
+            counterVisual.SetVisual(next, left);
+            orderManager.InitializeOrder(left);
+        }
+        else
+        {
+            orderManager.DisableOrder(left);
+        }
 
         // We can start stacking once we have an active order
         stackingController.ResetSandwich();
         stackingController.gameObject.SetActive(true);
-
-        // Get the next customer up there
-        registerVisual.TakeCustomer(left ? counterVisual.Left : counterVisual.Right, !left && counterVisual.Left != null);
-        counterVisual.SetVisual(lineup.GrabNext(), left);
     }
 
     public FoodItem[] GetCurrentOrder(bool left)
@@ -214,4 +248,12 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
+    private void EndDay()
+    {
+        stackingController.gameObject.SetActive(false);
+        orderSelection.gameObject.SetActive(false);
+
+        Debug.Log("Night complete!");
+    }
 }

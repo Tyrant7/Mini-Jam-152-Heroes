@@ -19,6 +19,26 @@ public class OrderManager
         orderRight = GetRandomFoodPair();
     }
 
+    public void InitializeOrder(bool left)
+    {
+        if (left)
+        {
+            orderLeft = GetRandomFoodPair();
+            return;
+        }
+        orderRight = GetRandomFoodPair();
+    }
+
+    public void DisableOrder(bool left)
+    {
+        if (left)
+        {
+            orderLeft = null;
+            return;
+        }
+        orderRight = null;
+    } 
+
     private FoodItem[] GetRandomFoodPair()
     {
         FoodItem[] items = new FoodItem[2] { foodItems[Random.Range(0, foodItems.Length)], null };
