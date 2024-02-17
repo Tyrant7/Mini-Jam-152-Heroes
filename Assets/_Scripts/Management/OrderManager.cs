@@ -13,12 +13,6 @@ public class OrderManager
     [HideInInspector] public FoodItem[] orderLeft = null;
     [HideInInspector] public FoodItem[] orderRight = null;
 
-    public void InitializeOrders()
-    {
-        orderLeft = GetRandomFoodPair();
-        orderRight = GetRandomFoodPair();
-    }
-
     public void InitializeOrder(bool left)
     {
         if (left)

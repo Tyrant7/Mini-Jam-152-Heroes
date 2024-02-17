@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9178834652461045209
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9178834652461045215}
+  - component: {fileID: 9178834652461045214}
+  - component: {fileID: 6466636820145236262}
+  - component: {fileID: 9178834652461045213}
+  - component: {fileID: 9178834652461045212}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9178834652461045215
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9178834652461045209}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9178834652461045214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9178834652461045209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 984f5bfb88445134ca3b5659b4aa2bf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orderManager:
+    bottomBread: {fileID: 11400000, guid: 328c4ef5a5c470848a25ad9c71e08bad, type: 2}
+    topBread: {fileID: 11400000, guid: 6ea51a81aff5a5845b39b1e55b38decd, type: 2}
+    foodItems:
+    - {fileID: 11400000, guid: dcd709c08c1085b40804058f6ed97fab, type: 2}
+    - {fileID: 11400000, guid: c6a980f8b32451b44bfcbd7d2af5afeb, type: 2}
+    - {fileID: 11400000, guid: 5e020e26b2eeca242b933881ce8ed4ae, type: 2}
+    - {fileID: 11400000, guid: 75d93062002387941a274ff7403e324f, type: 2}
+    maxSequence: 3
+    orderLeft: []
+    orderRight: []
+  orderLength: 10
+  stackingController: {fileID: 0}
+  orderSelection: {fileID: 0}
+  displayQueue: {fileID: 0}
+  jumpPrefab: {fileID: 8611691930888338681, guid: db5d8aaccf0a58d41a5803b66a19716c,
+    type: 3}
+  lineup: {fileID: 0}
+  counterVisual: {fileID: 0}
+  registerVisual: {fileID: 0}
+  scorePrefab: {fileID: 5772370399738340511, guid: e17c2cb5a452a1c4cb61dd394aea9ea5,
+    type: 3}
+  scoreCounter: {fileID: 0}
+  TotalMoney: 0
+--- !u!114 &6466636820145236262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9178834652461045209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 139edb625751a1f4e8193f4b89a2e522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allUpgrades:
+  - {fileID: 11400000, guid: 96f1db0e938066545a488f3e52bcd75d, type: 2}
+--- !u!114 &9178834652461045213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9178834652461045209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f14f518fab2812347b8a4a7d0558ebb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionPrefab: {fileID: 6183616169445430310, guid: 17fb8efa0b3e9114eb572eccbbd5ce6b,
+    type: 3}
+  transitionTime: 0.5
+--- !u!114 &9178834652461045212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9178834652461045209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e6fb8321d2c9e846bce6fe8ad54e3c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stackParticles: {fileID: 8152712039340925586, guid: 414b8197468c41d4a961c40ee350dda1,
+    type: 3}
+  bigDustParticles: {fileID: 2627368940655226813, guid: 58d54e2c75e9d6549aacd7289e1c33a7,
+    type: 3}

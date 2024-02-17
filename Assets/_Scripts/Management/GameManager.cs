@@ -49,32 +49,52 @@ public class GameManager : MonoBehaviour
     [SerializeField] ScoreCounter scoreCounter;
 
     [Header("Days")]
-    [SerializeField] int dailyOrders = 4;
+    private const int BaseCustomerCount = 1;
     private int totalOrders = 0;
 
     private DayStats dailyStats;
     private List<DayStats> pastStats = new List<DayStats>();
 
+    [Header("Upgrades")]
+    public int TotalMoney = 0;
+
     private void Start()
     {
-        StartDay(dailyOrders);
+        StartDay();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartDay();
+        }
     }
 
     #region Day Management
 
-    private void StartDay(int customerCount)
+    private void StartDay()
     {
-        orderManager.InitializeOrders();
+        int bonus = UpgradeManager.Instance.GetUpgradeBonuses().CustomerBonus;
+        totalOrders = BaseCustomerCount + bonus;
+        lineup.InitializeCustomers(totalOrders);
+
+        if (totalOrders > 0)
+        {
+            orderManager.InitializeOrder(false);
+            if (totalOrders > 1)
+            {
+                orderManager.InitializeOrder(true);
+            }
+        }
+
+        dailyStats = new DayStats(0, 0, 0, 0);
+        scoreCounter.UpdateDisplay(0);
 
         stackingController.gameObject.SetActive(false);
         orderSelection.gameObject.SetActive(true);
-        lineup.InitializeCustomers(customerCount);
         counterVisual.SetVisual(lineup.GrabNext(), false);
         counterVisual.SetVisual(lineup.GrabNext(), true);
-
-        totalOrders = customerCount;
-        dailyStats = new DayStats(0, 0, 0, 0);
-        scoreCounter.UpdateDisplay(0);
     }
 
     private void EndDay()
@@ -85,6 +105,9 @@ public class GameManager : MonoBehaviour
         // Find true accuracy based on completed orders
         dailyStats.Accuracy /= dailyStats.OrdersFulfilled;
         pastStats.Add(dailyStats);
+
+        // Update money for upgrade purchasing
+        TotalMoney += dailyStats.Score;
 
         StartCoroutine(EndDayAnimation());
     }
@@ -206,7 +229,7 @@ public class GameManager : MonoBehaviour
             pair.Item2.transform.SetParent(jump.transform);
             int score = scores.GetValueOrDefault(pair, 0);
             DisplayScore(pair.Item2.transform.position, score, score > 0 ? Color.green : Color.red);
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.25f);
             pair.Item2.transform.SetParent(sandwich.Root.transform);
             Destroy(jump);
         }
@@ -253,8 +276,8 @@ public class GameManager : MonoBehaviour
 
     public void SelectOrder(bool left)
     {
-        if ((left && orderManager.orderLeft == null) ||
-            (!left && orderManager.orderRight == null))
+        if ((left && (orderManager.orderLeft == null || orderManager.orderLeft.Length == 0)) ||
+            (!left && (orderManager.orderRight == null || orderManager.orderRight.Length == 0)))
         {
             return;
         }
