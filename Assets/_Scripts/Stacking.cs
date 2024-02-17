@@ -38,6 +38,11 @@ public class Stacking : MonoBehaviour
     private void SetNext()
     {
         next = GameManager.Instance.GetNextFoodItem();
+        if (next == null)
+        {
+            return;
+        }
+
         nextRotation = next.DontRotate ? Quaternion.identity : Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
         if (previewObject != null)
         {

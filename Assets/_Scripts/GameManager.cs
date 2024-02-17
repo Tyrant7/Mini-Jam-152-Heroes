@@ -31,14 +31,35 @@ public class GameManager : MonoBehaviour
 
     [Header("Stacking")]
     [SerializeField] Stacking stackingController;
+    [SerializeField] OrderSelection orderSelection;
 
     [Header("Visuals")]
     [SerializeField] DisplayQueue displayQueue;
     [SerializeField] GameObject jumpPrefab;
+    [SerializeField] Lineup lineup;
+    [SerializeField] CounterVisual counterVisual;
+
+    [SerializeField] int NPCCount = 4;
 
     [Header("Scoring")]
     [SerializeField] float topBreadScoreWeight = 20;
     [SerializeField] GameObject scorePrefab;
+
+    private void Start()
+    {
+        StartLevel();
+    }
+
+    private void StartLevel()
+    {
+        stackingController.gameObject.SetActive(false);
+        orderSelection.gameObject.SetActive(true);
+        lineup.InitializeCustomers(NPCCount);
+
+        orderManager.InitializeOrders();
+    }
+
+    #region Stacking
 
     public FoodItem GetNextFoodItem()
     {
@@ -55,10 +76,7 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(NextOrderAnimation(sandwich));
         }
-
-        orderQueue = orderManager.GenerateOrder(orderLength);
-        displayQueue.UpdateDisplay(new List<FoodItem>(orderQueue));
-        return orderQueue.Dequeue();
+        return null;
     }
 
     private IEnumerator NextOrderAnimation(Sandwich sandwich)
@@ -143,7 +161,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Game starts back up again as soon as sandwich is done counting
-        stackingController.gameObject.SetActive(true);
+        orderSelection.gameObject.SetActive(true);
 
         Animator anim = sandwich.Root.GetComponent<Animator>();
         anim.Play("Wrap_Up");
@@ -163,4 +181,23 @@ public class GameManager : MonoBehaviour
         textComp.color = colour;
         Destroy(scoreText, 2);
     }
+
+    #endregion
+
+    #region Selecting
+
+    public void SelectOrder(bool left)
+    {
+        orderQueue = orderManager.CreateOrder(orderLength, left);
+        orderSelection.gameObject.SetActive(false);
+
+        // We can start stacking once we have an active order
+        stackingController.ResetSandwich();
+        stackingController.gameObject.SetActive(true);
+
+        // Get the next customer up there
+        counterVisual.SetVisual(lineup.GrabNext(), left);
+    }
+
+    #endregion
 }

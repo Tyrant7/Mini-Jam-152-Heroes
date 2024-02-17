@@ -10,16 +10,39 @@ public class OrderManager
     [SerializeField] FoodItem[] foodItems;
     [SerializeField] int maxSequence = 3;
 
-    public Queue<FoodItem> GenerateOrder(int length)
+    [HideInInspector] public FoodItem[] orderLeft = null;
+    [HideInInspector] public FoodItem[] orderRight = null;
+
+    public void InitializeOrders()
     {
-        List<FoodItem> allItems = new List<FoodItem>(foodItems);
-        FoodItem item1 = allItems[Random.Range(0, allItems.Count)];
-        allItems.Remove(item1);
-        FoodItem item2 = allItems[Random.Range(0, allItems.Count)];
-        return GenerateQueue(item1, item2, length, maxSequence);
+        orderLeft = GetRandomFoodPair();
+        orderRight = GetRandomFoodPair();
     }
 
-    private Queue<FoodItem> GenerateQueue(FoodItem item1, FoodItem item2, int length, int maxSequence)
+    private FoodItem[] GetRandomFoodPair()
+    {
+        FoodItem[] items = new FoodItem[2] { foodItems[Random.Range(0, foodItems.Length)], null };
+        List<FoodItem> allItems = new List<FoodItem>(foodItems);
+        allItems.Remove(items[0]);
+        items[1] = allItems[Random.Range(0, allItems.Count)];
+        return items;
+    }
+
+    public Queue<FoodItem> CreateOrder(int length, bool left)
+    {
+        FoodItem[] cache = left ? orderLeft : orderRight;
+        if (left)
+        {
+            orderLeft = GetRandomFoodPair();
+        }
+        else
+        {
+            orderRight = GetRandomFoodPair();
+        }
+        return GenerateQueue(cache[0], cache[1], length);
+    }
+
+    private Queue<FoodItem> GenerateQueue(FoodItem item1, FoodItem item2, int length)
     {
         FoodItem[] foods = new FoodItem[length];
         foods[0] = bottomBread;

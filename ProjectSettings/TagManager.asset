@@ -7,6 +7,7 @@ TagManager:
   - Lose Zone
   - Bottom Bread
   - Top Bread
+  - Order Left
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - Water
   - UI
   - Stack
-  - 
+  - Order Area
   - 
   - 
   - 
