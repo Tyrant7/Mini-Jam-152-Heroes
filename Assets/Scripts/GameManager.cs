@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
         GameObject bottomBread = sandwich.Items[0].Item2;
 
         // Score each item
-        int score = 0;
+        int totalScore = 0;
         Dictionary<(FoodItem, GameObject), int> scores = new Dictionary<(FoodItem, GameObject), int>();
         foreach (var item in sandwich.Items)
         {
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
                         currentScore += item.Item1.PointValue / 2;
                     }
                 }
-                RaycastHit[] upHits = Physics.RaycastAll(item.Item2.transform.position + Vector3.down, Vector3.down, 1000f);
+                RaycastHit[] upHits = Physics.RaycastAll(item.Item2.transform.position + Vector3.down, Vector3.up, 1000f);
                 foreach (RaycastHit hit in upHits)
                 {
                     // Half of total points for each bread we're inline with
@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
             }
 
             int intScore = (int)Mathf.Ceil(currentScore);
-            score += intScore;
+            totalScore += intScore;
             scores.Add(item, intScore);
         }
 
@@ -128,15 +128,22 @@ public class GameManager : MonoBehaviour
         sandwich.Items.Reverse();
         foreach (var pair in sandwich.Items)
         {
+            if (pair == sandwich.Items[^1])
+            {
+                break;
+            }
+
             GameObject jump = Instantiate(jumpPrefab);
             pair.Item2.transform.SetParent(jump.transform);
-            DisplayScore(pair.Item2, scores.GetValueOrDefault(pair, 0));
-            yield return new WaitForSeconds(0.35f);
+            int score = scores.GetValueOrDefault(pair, 0);
+            DisplayScore(pair.Item2.transform.position, score, score > 0 ? Color.green : Color.red);
+            yield return new WaitForSeconds(0.3f);
             pair.Item2.transform.SetParent(sandwich.Root.transform);
             Destroy(jump);
         }
 
-        yield return new WaitForSeconds(1f);
+        // Game starts back up again as soon as sandwich is done counting
+        stackingController.gameObject.SetActive(true);
 
         Animator anim = sandwich.Root.GetComponent<Animator>();
         anim.Play("Wrap_Up");
@@ -145,18 +152,15 @@ public class GameManager : MonoBehaviour
         Destroy(sandwich.Root);
 
         ParticleSingleton.Instance.SpawnBigParticles(sandwich.Items[0].Item2.transform.position);
-
-        Debug.Log("Finished!");
-
-        stackingController.gameObject.SetActive(true);
+        DisplayScore(sandwich.Items[0].Item2.transform.position, totalScore, Color.yellow);
     }
 
-    private void DisplayScore(GameObject itemObject, int score)
+    private void DisplayScore(Vector3 position, int score, Color colour)
     {
-        GameObject scoreText = Instantiate(scorePrefab, itemObject.transform.position + new Vector3(0.5f, 0.5f, -1), Quaternion.identity);
+        GameObject scoreText = Instantiate(scorePrefab, position + new Vector3(0.5f, 0.5f, -1), Quaternion.identity);
         TextMeshProUGUI textComp = scoreText.GetComponentInChildren<TextMeshProUGUI>();
         textComp.text = score.ToString() + "$";
-        textComp.color = score > 0 ? Color.green : Color.red;
+        textComp.color = colour;
         Destroy(scoreText, 2);
     }
 }
