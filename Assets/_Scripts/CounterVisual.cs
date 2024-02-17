@@ -10,20 +10,25 @@ public class CounterVisual : MonoBehaviour
 
     public void SetVisual(CustomerVisual vis, bool left)
     {
-        vis.SetTarget(intermediatePoint);
+        if (vis == null)
+        {
+            return;
+        }
+
         if (left)
         {
             Left = vis;
+            vis.SetTarget(intermediatePoint);
             StartCoroutine(SetCorrectPoint(vis, standpointLeft));
             return;
         }
         Right = vis;
-        StartCoroutine(SetCorrectPoint(vis, standpointRight));
+        vis.SetTarget(standpointRight);
     }
 
     private IEnumerator SetCorrectPoint(CustomerVisual vis, Transform correctPoint)
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitUntil(() => vis.IsClose());
         vis.SetTarget(correctPoint);
     }
 }

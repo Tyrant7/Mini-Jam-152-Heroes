@@ -25,6 +25,10 @@ public class Lineup : MonoBehaviour
 
     public CustomerVisual GrabNext()
     {
+        if (customers.Count == 0)
+        {
+            return null;
+        }
         CustomerVisual cv = customers.Dequeue();
         UpdatePositions();
         return cv;

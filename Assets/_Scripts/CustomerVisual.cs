@@ -20,14 +20,11 @@ public class CustomerVisual : MonoBehaviour
             return;
         }
 
-        Vector2 myPos = new Vector2(transform.position.x, transform.position.z);
-        Vector2 targetPos = new Vector2(target.position.x, target.position.z);
-        float dist = Vector2.Distance(myPos, targetPos);
-        if (dist > 0.05f)
+        if (!IsClose())
         {
             Vector3 delta = Vector3.MoveTowards(transform.position, new Vector3(target.position.x, transform.position.y, target.position.z), walkSpeed * Time.deltaTime);
             transform.position = delta;
-            transform.LookAt(new Vector3(targetPos.x, transform.position.y, targetPos.y), Vector3.up);
+            transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z), Vector3.up);
         }
         else
         {
@@ -42,5 +39,13 @@ public class CustomerVisual : MonoBehaviour
     public void SetTarget(Transform target)
     {
         this.target = target;
+    }
+
+    public bool IsClose()
+    {
+        Vector2 myPos = new Vector2(transform.position.x, transform.position.z);
+        Vector2 targetPos = new Vector2(target.position.x, target.position.z);
+        float dist = Vector2.Distance(myPos, targetPos);
+        return dist <= 0.05f;
     }
 }

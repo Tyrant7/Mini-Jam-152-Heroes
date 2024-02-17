@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    public delegate void SandwichEventHandler();
+    public event SandwichEventHandler OnSandwichCompleted;
+
     [Header("Order Management")]
     [SerializeField] OrderManager orderManager = new OrderManager();
     [SerializeField] int orderLength = 5;
@@ -38,6 +41,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject jumpPrefab;
     [SerializeField] Lineup lineup;
     [SerializeField] CounterVisual counterVisual;
+    [SerializeField] RegisterVisual registerVisual;
 
     [SerializeField] int NPCCount = 4;
 
@@ -55,6 +59,8 @@ public class GameManager : MonoBehaviour
         stackingController.gameObject.SetActive(false);
         orderSelection.gameObject.SetActive(true);
         lineup.InitializeCustomers(NPCCount);
+        counterVisual.SetVisual(lineup.GrabNext(), false);
+        counterVisual.SetVisual(lineup.GrabNext(), true);
 
         orderManager.InitializeOrders();
     }
@@ -76,6 +82,7 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(NextOrderAnimation(sandwich));
         }
+        displayQueue.UpdateDisplay(new List<FoodItem>());
         return null;
     }
 
@@ -171,6 +178,7 @@ public class GameManager : MonoBehaviour
 
         ParticleSingleton.Instance.SpawnBigParticles(sandwich.Items[0].Item2.transform.position);
         DisplayScore(sandwich.Items[0].Item2.transform.position, totalScore, Color.yellow);
+        OnSandwichCompleted?.Invoke();
     }
 
     private void DisplayScore(Vector3 position, int score, Color colour)
@@ -196,6 +204,7 @@ public class GameManager : MonoBehaviour
         stackingController.gameObject.SetActive(true);
 
         // Get the next customer up there
+        registerVisual.TakeCustomer(left ? counterVisual.Left : counterVisual.Right, !left && counterVisual.Left != null);
         counterVisual.SetVisual(lineup.GrabNext(), left);
     }
 
