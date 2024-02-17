@@ -6,7 +6,7 @@ public class CustomerVisual : MonoBehaviour
 {
     [SerializeField] float walkSpeed = 2f;
     [SerializeField] float rotateSpeed = 180;
-    [SerializeField] private Transform target;
+    private Transform target;
 
     private void Start()
     {
@@ -39,6 +39,11 @@ public class CustomerVisual : MonoBehaviour
     public void SetTarget(Transform target)
     {
         this.target = target;
+    }
+
+    public Transform GetTarget()
+    {
+        return target;
     }
 
     public bool IsClose()

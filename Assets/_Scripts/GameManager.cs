@@ -56,13 +56,13 @@ public class GameManager : MonoBehaviour
 
     private void StartLevel()
     {
+        orderManager.InitializeOrders();
+
         stackingController.gameObject.SetActive(false);
         orderSelection.gameObject.SetActive(true);
         lineup.InitializeCustomers(NPCCount);
         counterVisual.SetVisual(lineup.GrabNext(), false);
         counterVisual.SetVisual(lineup.GrabNext(), true);
-
-        orderManager.InitializeOrders();
     }
 
     #region Stacking
@@ -206,6 +206,11 @@ public class GameManager : MonoBehaviour
         // Get the next customer up there
         registerVisual.TakeCustomer(left ? counterVisual.Left : counterVisual.Right, !left && counterVisual.Left != null);
         counterVisual.SetVisual(lineup.GrabNext(), left);
+    }
+
+    public FoodItem[] GetCurrentOrder(bool left)
+    {
+        return left ? orderManager.orderLeft : orderManager.orderRight;
     }
 
     #endregion

@@ -1100,6 +1100,7 @@ GameObject:
   - component: {fileID: 412448}
   - component: {fileID: 9558288}
   - component: {fileID: 1861805574064396975}
+  - component: {fileID: -948809892410657158}
   m_Layer: 0
   m_Name: SP2_Character_Barista_White
   m_TagString: Untagged
@@ -1168,9 +1169,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d9eb5e167f43c4bb3d9a203c90185f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  orderHint: {fileID: 0}
   walkSpeed: 2
   rotateSpeed: 180
-  target: {fileID: 0}
+--- !u!136 &-948809892410657158
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142422}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &143906
 GameObject:
   m_ObjectHideFlags: 0
