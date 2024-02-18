@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Snacks
   m_EditorClassIdentifier: 
   Name: Snacks On Demand
-  Description: Snacks to fuel you throughout the day!
-  Cost: 40
+  Description: Staying energized will give you a few extra seconds of working time!
+  Cost: 30
   Icon: {fileID: 21300000, guid: 7c16a6b364a676248b661546f9adb44a, type: 3}
   Unlocks: {fileID: 0}
   CustomerBonus: 0

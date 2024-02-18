@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameRuntimeObjects : MonoBehaviour
 {
@@ -20,4 +21,6 @@ public class GameRuntimeObjects : MonoBehaviour
 
     public ScoreCounter scoreCounter;
     public TimeVisual timeVisual;
+
+    public TextMeshProUGUI scoreText;
 }

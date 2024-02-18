@@ -8,6 +8,11 @@ public class OrderSelection : MonoBehaviour
 
     void Update()
     {
+        if (PauseManager.Paused)
+        {
+            return;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit info, 1000, layerMask))
         {

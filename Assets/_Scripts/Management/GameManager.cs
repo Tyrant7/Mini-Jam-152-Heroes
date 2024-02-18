@@ -70,6 +70,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (PauseManager.Paused || !SceneLoader.Instance.IsGameScene())
+        {
+            return;
+        }
+
         if (gameStarted)
         {
             dailyStats.Time += Time.deltaTime;
@@ -80,7 +85,7 @@ public class GameManager : MonoBehaviour
                 Timeup();
             } 
         }
-        else if (!postGame && SceneLoader.Instance.IsGameScene())
+        else if (!postGame)
         {
             StartDay();
         }
@@ -128,6 +133,12 @@ public class GameManager : MonoBehaviour
         environment.counterVisual.SetVisual(environment.lineup.GrabNext(), true);
 
         gameStarted = true;
+    }
+
+    public void ExitToMainMenu()
+    {
+        gameStarted = false;
+        postGame = false;
     }
 
     private void Timeup()
@@ -270,6 +281,11 @@ public class GameManager : MonoBehaviour
             Destroy(col);
         }
 
+        // Display a total score above the sandwich
+        environment.scoreText.gameObject.GetComponent<Animator>().Play("Show");
+        environment.scoreText.text = maxScore.ToString() + " $";
+        int current = maxScore;
+
         // Make each ingredient jump and display the score we got for it
         sandwich.Items.Reverse();
         foreach (var pair in sandwich.Items)
@@ -280,13 +296,20 @@ public class GameManager : MonoBehaviour
                 break;
             }
 
-            GameObject jump = Instantiate(jumpPrefab);
-            pair.Item2.transform.SetParent(jump.transform);
             int score = scores.GetValueOrDefault(pair, 0);
-            DisplayScore(pair.Item2.transform.position, score, score > 0 ? Color.green : Color.red, true);
-            yield return new WaitForSeconds(0.2f);
-            pair.Item2.transform.SetParent(sandwich.Root.transform);
-            Destroy(jump);
+            if (score < pair.Item1.PointValue)
+            {
+                GameObject jump = Instantiate(jumpPrefab);
+                pair.Item2.transform.SetParent(jump.transform);
+
+                current -= pair.Item1.PointValue - score;
+                environment.scoreText.text = current.ToString() + " $";
+                DisplayScore(pair.Item2.transform.position, -(pair.Item1.PointValue - score), Color.red, true);
+
+                yield return new WaitForSeconds(0.3f);
+                pair.Item2.transform.SetParent(sandwich.Root.transform);
+                Destroy(jump, 1f);
+            }
         }
 
         // Game starts back up again as soon as sandwich is done counting
@@ -309,6 +332,7 @@ public class GameManager : MonoBehaviour
         dailyStats.OrdersFulfilled++;
 
         environment.scoreCounter.UpdateDisplay(dailyStats.Score);
+        environment.scoreText.gameObject.GetComponent<Animator>().Play("Hide");
 
         // Check day end
         if (dailyStats.OrdersFulfilled >= totalOrders)

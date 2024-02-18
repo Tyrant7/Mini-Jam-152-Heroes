@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Warm Welcome
   Description: Keep customers coming back!
-  Cost: 50
+  Cost: 30
   Icon: {fileID: 21300000, guid: f4fb58c5f4c252845a84538e8bc60ad9, type: 3}
   Unlocks: {fileID: 0}
   CustomerBonus: 1

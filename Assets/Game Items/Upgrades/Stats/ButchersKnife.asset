@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Bigger Knives
   Description: Larger knives allow for larger sandwiches!
-  Cost: 70
+  Cost: 55
   Icon: {fileID: 21300000, guid: 4a5c43258f1896747b6b3412e6316db8, type: 3}
   Unlocks: {fileID: 0}
   CustomerBonus: 0

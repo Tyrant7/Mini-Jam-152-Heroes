@@ -28,7 +28,7 @@ public class StatsScreen : MonoBehaviour
         ordersFulfilledText.text = stats.OrdersFulfilled.ToString();
         accuracyText.text        = Mathf.Ceil(stats.Accuracy * 100).ToString() + " %";
         timeText.text            = TimeSpan.FromSeconds(stats.Time).ToString(@"mm\:ss");
-        rentText.text            = stats.Rent.ToString() + " $";
+        rentText.text            = "-" + stats.Rent.ToString() + " $";
         earningsText.text        = stats.Score.ToString() + " $";
         totalText.text           = GameManager.Instance.TotalMoney + " $";
     }

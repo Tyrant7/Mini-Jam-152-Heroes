@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Word Of Mouth
   Description: Word of mouth travels far!
-  Cost: 50
+  Cost: 35
   Icon: {fileID: 21300000, guid: b61489fb39ed27246810330588b7e4c8, type: 3}
   Unlocks: {fileID: 0}
   CustomerBonus: 1

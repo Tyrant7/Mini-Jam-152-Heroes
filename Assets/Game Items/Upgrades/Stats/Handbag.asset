@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Bags
   Description: Bags can fit larger sandwiches!
-  Cost: 70
+  Cost: 50
   Icon: {fileID: 21300000, guid: 14ecc23687070a54bb93ae57f06a90bc, type: 3}
   Unlocks: {fileID: 0}
   CustomerBonus: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Coffee
   Description: An energy boost to work later into the day!
-  Cost: 50
+  Cost: 35
   Icon: {fileID: 21300000, guid: d50360f48658d864896a35ae3280f9d6, type: 3}
   Unlocks: {fileID: 0}
   CustomerBonus: 0

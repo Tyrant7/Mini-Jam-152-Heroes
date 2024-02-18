@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: News Article
   Description: Attract some more attention!
-  Cost: 25
+  Cost: 20
   Icon: {fileID: 21300000, guid: 5d4a2f36b6288ab46b914d408af5a437, type: 3}
   Unlocks: {fileID: 0}
   CustomerBonus: 1

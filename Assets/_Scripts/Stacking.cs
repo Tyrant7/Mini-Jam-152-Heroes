@@ -18,6 +18,11 @@ public class Stacking : MonoBehaviour
 
     private void Update()
     {
+        if (PauseManager.Paused)
+        {
+            return;
+        }
+
         if (next == null)
         {
             SetNext();

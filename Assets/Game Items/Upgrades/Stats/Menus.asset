@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Menus
   Description: More customers will come if they know what to expect!
-  Cost: 100
+  Cost: 80
   Icon: {fileID: 21300000, guid: 996da3fe6489aa845a98808f21e76eab, type: 3}
   Unlocks: {fileID: 0}
   CustomerBonus: 2

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Hearty Sandwiches
   Description: Bigger subs coming up!
-  Cost: 130
+  Cost: 100
   Icon: {fileID: 21300000, guid: 03b433110f2b28448b112189b3a52fab, type: 3}
   Unlocks: {fileID: 0}
   CustomerBonus: 0
