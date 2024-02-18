@@ -451,6 +451,12 @@ MonoBehaviour:
   idleAnimationName: Idle
   minFlavourInterval: 5
   maxFlavourInterval: 10
+  flavourAudio:
+  - {fileID: 8300000, guid: 88749120eceea12408f65456a3b848b0, type: 3}
+  - {fileID: 8300000, guid: 1b655975e463d6649baf1401568422a3, type: 3}
+  - {fileID: 8300000, guid: 8e2ea302e2c7cba4abf34d68a750fcf7, type: 3}
+  - {fileID: 8300000, guid: dde52b965b45c38439f01549272c97ee, type: 3}
+  - {fileID: 8300000, guid: d23b0881c98c1f741886339fa6690a8f, type: 3}
   walkSpeed: 1.5
   rotateSpeed: 220
 --- !u!136 &2038442902643022960

@@ -10,6 +10,7 @@ public class CustomerVisual : MonoBehaviour
     [SerializeField] string walkAnimationName;
     [SerializeField] string idleAnimationName;
     [SerializeField] float minFlavourInterval, maxFlavourInterval;
+    [SerializeField] AudioClip[] flavourAudio;
 
     private float timeSinceLastFlavour = 0;
     private float decidedFlavourInterval;
@@ -64,6 +65,12 @@ public class CustomerVisual : MonoBehaviour
                     timeSinceLastFlavour = 0;
                     decidedFlavourInterval = Random.Range(minFlavourInterval, maxFlavourInterval);
                     anim.Play(flavourAnimationNames[Random.Range(0, flavourAnimationNames.Length)]);
+                    if (flavourAudio != null)
+                    {
+                        // 1 in 3 chance to play an audio clip as well
+                        if (Random.Range(0, 3) == 0)
+                            AudioManager.PlayRoundRobin(flavourAudio, 0.65f);
+                    }
                 }
             }
         }
