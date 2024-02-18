@@ -7,7 +7,7 @@ public class Stacking : MonoBehaviour
 {
     [SerializeField] LayerMask layerMask;
     private FoodItem next;
-    private GameObject previewObject;
+    private StackingPreview previewObject;
     private Quaternion nextRotation;
 
     private Sandwich sandwich;
@@ -31,7 +31,12 @@ public class Stacking : MonoBehaviour
                 SetNext();
             }
 
+            previewObject.Show();
             previewObject.transform.position = info.point;
+        }
+        else
+        {
+            previewObject.Hide();
         }
     }
 
@@ -46,9 +51,9 @@ public class Stacking : MonoBehaviour
         nextRotation = next.DontRotate ? Quaternion.identity : Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
         if (previewObject != null)
         {
-            Destroy(previewObject);
+            Destroy(previewObject.gameObject);
         }
-        previewObject = Instantiate(previewEffectPrefab, Vector3.zero, Quaternion.identity, transform);
+        previewObject = Instantiate(previewEffectPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<StackingPreview>();
         Instantiate(next.Prefab, Vector3.zero, nextRotation, previewObject.transform);
 
         // Disable all physics on the preview object
