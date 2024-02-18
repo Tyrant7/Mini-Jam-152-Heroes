@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     [Header("Days")]
     private const int BaseCustomerCount = 4;
     private const int BaseDayLength = 90;
-    private const int BaseRent = 20;
+    private const int BaseRent = 15;
     private const int RentIncrease = 10;
     private int totalOrders = 0;
     private int totalDayLength = 0;
@@ -212,7 +212,7 @@ public class GameManager : MonoBehaviour
         environment.stackingController.gameObject.SetActive(false);
 
         // Wait for the items to settle
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         // Track our bread
         Bread topBread = sandwich.Items[^1].Item2.GetComponent<Bread>();
