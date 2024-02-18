@@ -67,6 +67,12 @@ public class GameManager : MonoBehaviour
             GetComponent<SceneLoader>().OnSceneLoaded -= StartDay;
     }
 
+    private void Start()
+    {
+        // Just in case we want to playtest without going to the main menu first
+        StartDay();
+    }
+
     private void Update()
     {
         if (gameStarted)
@@ -87,6 +93,7 @@ public class GameManager : MonoBehaviour
     {
         TotalMoney = 0;
         pastStats.Clear();
+        UpgradeManager.Instance.ResetUpgrades();
     }
 
     private void StartDay()
@@ -184,9 +191,7 @@ public class GameManager : MonoBehaviour
     {
         if (orderQueue.TryDequeue(out FoodItem next))
         {
-            var list = new List<FoodItem>(orderQueue);
-            list.Add(next);
-            environment.displayQueue.UpdateDisplay(list);
+            environment.displayQueue.UpdateDisplay(new List<FoodItem>(orderQueue));
             return next;
         }
 
@@ -207,8 +212,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         // Track our bread
-        GameObject topBread = sandwich.Items[^1].Item2;
-        GameObject bottomBread = sandwich.Items[0].Item2;
+        Bread topBread = sandwich.Items[^1].Item2.GetComponent<Bread>();
+        Bread bottomBread = sandwich.Items[0].Item2.GetComponent<Bread>();
 
         // Score each item
         int totalScore = 0;
@@ -217,7 +222,7 @@ public class GameManager : MonoBehaviour
         foreach (var item in sandwich.Items)
         {
             float currentScore = 0;
-            if (item.Item2 == topBread)
+            if (item.Item2 == topBread.gameObject)
             {
                 // Special case for top bread
                 // We'll give points based on how close it was
@@ -226,23 +231,21 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                RaycastHit[] downHits = Physics.RaycastAll(item.Item2.transform.position + Vector3.up, Vector3.down, 1000f);
-                foreach (RaycastHit hit in downHits)
+                // Simply check if our item is between
+                Vector3 itemPos = item.Item2.transform.position;
+                if ((itemPos.y >= bottomBread.rightBorder.position.y ||
+                    itemPos.y >= bottomBread.leftBorder.position.y) && 
+                    itemPos.x <= bottomBread.rightBorder.position.x && 
+                    itemPos.x >= bottomBread.leftBorder.position.x)
                 {
-                    // Half of total points for each bread we're inline with
-                    if (hit.transform.CompareTag("Bottom Bread"))
-                    {
-                        currentScore += item.Item1.PointValue / 2;
-                    }
+                    currentScore += (float)item.Item1.PointValue / 2;
                 }
-                RaycastHit[] upHits = Physics.RaycastAll(item.Item2.transform.position + Vector3.down, Vector3.up, 1000f);
-                foreach (RaycastHit hit in upHits)
+                if ((itemPos.y <= topBread.rightBorder.position.y ||
+                    itemPos.y <= topBread.leftBorder.position.y) &&
+                    itemPos.x <= topBread.rightBorder.position.x &&
+                    itemPos.x >= topBread.leftBorder.position.x)
                 {
-                    // Half of total points for each bread we're inline with
-                    if (hit.transform.CompareTag("Top Bread"))
-                    {
-                        currentScore += item.Item1.PointValue / 2;
-                    }
+                    currentScore += (float)item.Item1.PointValue / 2;
                 }
             }
 
@@ -268,6 +271,7 @@ public class GameManager : MonoBehaviour
         sandwich.Items.Reverse();
         foreach (var pair in sandwich.Items)
         {
+            // Don't score the bottom bread (last item after reverse)
             if (pair == sandwich.Items[^1])
             {
                 break;

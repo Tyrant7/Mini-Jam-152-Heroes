@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [System.Serializable]
 public class OrderManager
 {
     [SerializeField] FoodItem bottomBread;
     [SerializeField] FoodItem topBread;
-    [SerializeField] FoodItem[] foodItems;
+    [SerializeField] FoodItem[] defaultFoodItems;
     [SerializeField] int maxSequence = 3;
 
     [HideInInspector] public FoodItem[] orderLeft = null;
@@ -35,11 +36,17 @@ public class OrderManager
 
     private FoodItem[] GetRandomFoodPair()
     {
-        FoodItem[] items = new FoodItem[2] { foodItems[Random.Range(0, foodItems.Length)], null };
-        List<FoodItem> allItems = new List<FoodItem>(foodItems);
-        allItems.Remove(items[0]);
-        items[1] = allItems[Random.Range(0, allItems.Count)];
+        List<FoodItem> unlockedItems = new List<FoodItem>(GetUnlockedFoodItems());
+        FoodItem[] items = new FoodItem[2] { unlockedItems[Random.Range(0, unlockedItems.Count)], null };
+        unlockedItems.Remove(items[0]);
+        items[1] = unlockedItems[Random.Range(0, unlockedItems.Count)];
         return items;
+    }
+
+    private FoodItem[] GetUnlockedFoodItems()
+    {
+        FoodItem[] unlocked = defaultFoodItems;
+        return unlocked.Concat(UpgradeManager.Instance.GetUpgradeBonuses().Unlocks).ToArray();
     }
 
     public Queue<FoodItem> CreateOrder(int length, bool left)

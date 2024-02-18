@@ -20,6 +20,7 @@ public class DisplayQueue : MonoBehaviour
         foreach (FoodItem item in items)
         {
             GameObject newBox = Instantiate(boxPrefab, boxParent);
+            newBox.transform.SetAsLastSibling();
             newBox.GetComponent<Image>().sprite = item.Icon;
             currentBoxes.Add(newBox);
         }

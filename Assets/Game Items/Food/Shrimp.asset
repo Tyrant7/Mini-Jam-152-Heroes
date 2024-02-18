@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Shrimp
   m_EditorClassIdentifier: 
   Prefab: {fileID: 1143921563613674467, guid: 374d1f885413d1b40b1c461deb230723, type: 3}
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 166cf791a74783e41b7bc7cee8f12b9f, type: 3}
   PointValue: 4
   DontRotate: 0

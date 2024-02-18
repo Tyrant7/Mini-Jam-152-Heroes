@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 809cda06f284fe8428e686b0b6a57932, type: 3}
+  m_Name: Steak
+  m_EditorClassIdentifier: 
+  Prefab: {fileID: 4862238903037988844, guid: eb04922bbe2d2f840b8b78c8a88f2c1a, type: 3}
+  Icon: {fileID: 21300000, guid: 38266f722f2a97944b4b136735e1f2b8, type: 3}
+  PointValue: 4
+  DontRotate: 0

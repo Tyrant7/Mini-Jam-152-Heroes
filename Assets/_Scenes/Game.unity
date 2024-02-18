@@ -1558,11 +1558,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Speech_Bubble_Canvas_L
       objectReference: {fileID: 0}
-    - target: {fileID: 6975314216051996777, guid: d61f0f6d3eb8b354f9cbcecd5ab793db,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: -1
-      objectReference: {fileID: 0}
     - target: {fileID: 7038870884648257024, guid: d61f0f6d3eb8b354f9cbcecd5ab793db,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1607,11 +1602,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7038870884648257024, guid: d61f0f6d3eb8b354f9cbcecd5ab793db,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7038870884648257024, guid: d61f0f6d3eb8b354f9cbcecd5ab793db,
         type: 3}
@@ -1672,11 +1662,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8270309795893038019, guid: d61f0f6d3eb8b354f9cbcecd5ab793db,
-        type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d61f0f6d3eb8b354f9cbcecd5ab793db, type: 3}
@@ -1881,6 +1866,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Speech_Bubble_Canvas_R
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975314215645089146, guid: d61f0f6d3eb8b354f9cbcecd5ab793db,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975314215645089146, guid: d61f0f6d3eb8b354f9cbcecd5ab793db,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975314215645089146, guid: d61f0f6d3eb8b354f9cbcecd5ab793db,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975314216051996777, guid: d61f0f6d3eb8b354f9cbcecd5ab793db,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975314217460812961, guid: d61f0f6d3eb8b354f9cbcecd5ab793db,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975314217460812961, guid: d61f0f6d3eb8b354f9cbcecd5ab793db,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975314217460812961, guid: d61f0f6d3eb8b354f9cbcecd5ab793db,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7038870884648257024, guid: d61f0f6d3eb8b354f9cbcecd5ab793db,
         type: 3}
@@ -2571,41 +2591,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 9178834652461045214, guid: 5355bd2b240aa9a49bb9b2b4162df32b,
-        type: 3}
-      propertyPath: lineup
-      value: 
-      objectReference: {fileID: 1746199793}
-    - target: {fileID: 9178834652461045214, guid: 5355bd2b240aa9a49bb9b2b4162df32b,
-        type: 3}
-      propertyPath: displayQueue
-      value: 
-      objectReference: {fileID: 490769756}
-    - target: {fileID: 9178834652461045214, guid: 5355bd2b240aa9a49bb9b2b4162df32b,
-        type: 3}
-      propertyPath: scoreCounter
-      value: 
-      objectReference: {fileID: 431447281}
-    - target: {fileID: 9178834652461045214, guid: 5355bd2b240aa9a49bb9b2b4162df32b,
-        type: 3}
-      propertyPath: counterVisual
-      value: 
-      objectReference: {fileID: 442186130}
-    - target: {fileID: 9178834652461045214, guid: 5355bd2b240aa9a49bb9b2b4162df32b,
-        type: 3}
-      propertyPath: orderSelection
-      value: 
-      objectReference: {fileID: 981713037}
-    - target: {fileID: 9178834652461045214, guid: 5355bd2b240aa9a49bb9b2b4162df32b,
-        type: 3}
-      propertyPath: registerVisual
-      value: 
-      objectReference: {fileID: 1647453148}
-    - target: {fileID: 9178834652461045214, guid: 5355bd2b240aa9a49bb9b2b4162df32b,
-        type: 3}
-      propertyPath: stackingController
-      value: 
-      objectReference: {fileID: 2138127275}
     - target: {fileID: 9178834652461045215, guid: 5355bd2b240aa9a49bb9b2b4162df32b,
         type: 3}
       propertyPath: m_RootOrder

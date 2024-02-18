@@ -33,7 +33,13 @@ public class UpgradeManager : MonoBehaviour
 
     private void Start()
     {
+        ResetUpgrades();
+    }
+
+    public void ResetUpgrades()
+    {
         lockedUpgrades = new List<Upgrade>(allUpgrades);
+        unlockedUpgrades.Clear();
     }
 
     public Upgrade[] GetUpgrades()
