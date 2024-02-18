@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb6032d11d0d104093fd960e893afa6, type: 3}
+  m_Name: Ham
+  m_EditorClassIdentifier: 
+  Name: Ham
+  Description: That's a lot of meat.
+  Cost: 45
+  Icon: {fileID: 21300000, guid: 387625533b3c6194ab86769f3a8aee14, type: 3}
+  Unlocks: {fileID: 11400000, guid: 5ef0792f8837c8941868ca78ccd16e47, type: 2}
+  CustomerBonus: 0
+  DayLengthBonus: 0
+  SandwichSizeBonus: 0

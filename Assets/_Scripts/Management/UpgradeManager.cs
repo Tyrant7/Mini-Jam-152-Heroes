@@ -84,6 +84,7 @@ public class UpgradeManager : MonoBehaviour
         List<FoodItem> foods = new List<FoodItem>();
         int customers = 0;
         int dayLength = 0;
+        int sandwichSize = 0;
         foreach (Upgrade upgrade in unlockedUpgrades)
         {
             if (upgrade.Unlocks != null)
@@ -92,8 +93,9 @@ public class UpgradeManager : MonoBehaviour
             }
             customers += upgrade.CustomerBonus;
             dayLength += upgrade.DayLengthBonus;
+            sandwichSize += upgrade.SandwichSizeBonus;
         }
-        return new UpgradeBonuses(foods.ToArray(), customers, dayLength);
+        return new UpgradeBonuses(foods.ToArray(), customers, dayLength, sandwichSize);
     }
 }
 
@@ -102,11 +104,13 @@ public struct UpgradeBonuses
     public readonly FoodItem[] Unlocks;
     public readonly int CustomerBonus;
     public readonly int DayLength;
+    public readonly int SandwichSize;
 
-    public UpgradeBonuses(FoodItem[] unlocks, int customerBonus, int dayLength)
+    public UpgradeBonuses(FoodItem[] unlocks, int customerBonus, int dayLength, int sandwichSize)
     {
         this.Unlocks = unlocks;
         this.CustomerBonus = customerBonus;
         this.DayLength = dayLength;
+        this.SandwichSize = sandwichSize;
     }
 }

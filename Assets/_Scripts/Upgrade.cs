@@ -13,4 +13,5 @@ public class Upgrade : ScriptableObject
     public FoodItem Unlocks;
     public int CustomerBonus;
     public int DayLengthBonus;
+    public int SandwichSizeBonus;
 }

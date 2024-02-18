@@ -31,7 +31,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Order Management")]
     [SerializeField] OrderManager orderManager = new OrderManager();
-    [SerializeField] int orderLength = 5;
+    private const int BaseOrderSize = 7;
+    private int bonusOrderSize = 0;
 
     private Queue<FoodItem> orderQueue = new Queue<FoodItem>();
 
@@ -118,6 +119,7 @@ public class GameManager : MonoBehaviour
         }
 
         totalDayLength = BaseDayLength + bonuses.DayLength;
+        bonusOrderSize = bonuses.SandwichSize;
 
         dailyStats = new DayStats(0, 0, 0, 0, BaseRent + (RentIncrease * pastStats.Count));
         environment.scoreCounter.UpdateDisplay(0);
@@ -335,7 +337,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Get the next order
-        orderQueue = orderManager.CreateOrder(orderLength, left);
+        orderQueue = orderManager.CreateOrder(BaseOrderSize + bonusOrderSize, left);
         environment.orderSelection.gameObject.SetActive(false);
 
         // Get the next customer up there
