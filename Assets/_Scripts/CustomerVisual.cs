@@ -41,8 +41,6 @@ public class CustomerVisual : MonoBehaviour
             anim.Play(walkAnimationName);
             anim.applyRootMotion = true;
             anim.speed = walkSpeed;
-
-            // Dust particles and noise
         }
         else
         {

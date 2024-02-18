@@ -19,4 +19,5 @@ public class GameRuntimeObjects : MonoBehaviour
     public RegisterVisual registerVisual;
 
     public ScoreCounter scoreCounter;
+    public TimeVisual timeVisual;
 }

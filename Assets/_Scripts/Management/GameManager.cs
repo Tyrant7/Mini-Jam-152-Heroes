@@ -42,14 +42,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject scorePrefab;
 
     [Header("Days")]
-    private const int BaseCustomerCount = 1;
+    private const int BaseCustomerCount = 4;
+    private const int BaseDayLength = 120;
     private int totalOrders = 0;
+    private int totalDayLength = 0;
 
     private DayStats dailyStats;
     private List<DayStats> pastStats = new List<DayStats>();
 
     [Header("Upgrades")]
     public int TotalMoney = 0;
+    private bool gameStarted = false;
 
     private void Start()
     {
@@ -58,9 +61,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (gameStarted)
         {
-            StartDay();
+            dailyStats.Time += Time.deltaTime;
+            float remainingTime = totalDayLength - dailyStats.Time;
+            environment.timeVisual.UpdateVisual(remainingTime);
+            if (remainingTime <= 0)
+            {
+                Timeup();
+            } 
         }
     }
 
@@ -70,10 +79,9 @@ public class GameManager : MonoBehaviour
     {
         environment = FindObjectOfType<GameRuntimeObjects>();
 
-        int bonus = UpgradeManager.Instance.GetUpgradeBonuses().CustomerBonus;
-        totalOrders = BaseCustomerCount + bonus;
+        UpgradeBonuses bonuses = UpgradeManager.Instance.GetUpgradeBonuses();
+        totalOrders = BaseCustomerCount + bonuses.CustomerBonus;
         environment.lineup.InitializeCustomers(totalOrders);
-
         if (totalOrders > 0)
         {
             orderManager.InitializeOrder(false);
@@ -83,6 +91,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        totalDayLength = BaseDayLength + bonuses.DayLength;
+
         dailyStats = new DayStats(0, 0, 0, 0);
         environment.scoreCounter.UpdateDisplay(0);
 
@@ -90,10 +100,23 @@ public class GameManager : MonoBehaviour
         environment.orderSelection.gameObject.SetActive(true);
         environment.counterVisual.SetVisual(environment.lineup.GrabNext(), false);
         environment.counterVisual.SetVisual(environment.lineup.GrabNext(), true);
+
+        gameStarted = true;
+    }
+
+    private void Timeup()
+    {
+        Debug.Log("Out of time!");
+
+        // Timer ring, etc.
+
+        EndDay();
     }
 
     private void EndDay()
     {
+        gameStarted = false;
+
         environment.stackingController.gameObject.SetActive(false);
         environment.orderSelection.gameObject.SetActive(false);
 
@@ -224,7 +247,7 @@ public class GameManager : MonoBehaviour
             pair.Item2.transform.SetParent(jump.transform);
             int score = scores.GetValueOrDefault(pair, 0);
             DisplayScore(pair.Item2.transform.position, score, score > 0 ? Color.green : Color.red);
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.2f);
             pair.Item2.transform.SetParent(sandwich.Root.transform);
             Destroy(jump);
         }
