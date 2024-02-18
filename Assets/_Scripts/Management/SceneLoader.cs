@@ -51,8 +51,9 @@ public class SceneLoader : MonoBehaviour
         SceneManager.sceneLoaded -= SpawnTransitionPrefab;
     }
 
-    public void LoadGame()
+    public void StartGame()
     {
+        GameManager.Instance.ResetGame();
         LoadScene("Game");
     }
 

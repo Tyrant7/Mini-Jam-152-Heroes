@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Days")]
     private const int BaseCustomerCount = 4;
-    private const int BaseDayLength = 120;
+    private const int BaseDayLength = 90;
     private const int BaseRent = 20;
     private const int RentIncrease = 10;
     private int totalOrders = 0;
@@ -83,16 +83,18 @@ public class GameManager : MonoBehaviour
 
     #region Day Management
 
+    public void ResetGame()
+    {
+        TotalMoney = 0;
+        pastStats.Clear();
+    }
+
     private void StartDay()
     {
-        Debug.Log("Starting day!");
-
         // If this is a menu scene this check will fail and the day will not start -> what we intended
         environment = FindObjectOfType<GameRuntimeObjects>();
         if (environment == null)
         {
-            Debug.Log("No envrioment");
-
             return;
         }
 
