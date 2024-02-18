@@ -62,6 +62,14 @@ public class UpgradeManager : MonoBehaviour
             GameManager.Instance.TotalMoney -= upgrade.Cost;
             lockedUpgrades.Remove(upgrade);
             unlockedUpgrades.Add(upgrade);
+
+            // Show visual for new upgrade
+            ActivateAllUnlocked activate = FindObjectOfType<ActivateAllUnlocked>();
+            if (activate != null)
+            {
+                activate.ActivateAll();
+            }
+
             return true;
         }
         return false;
