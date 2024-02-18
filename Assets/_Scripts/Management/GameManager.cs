@@ -323,7 +323,8 @@ public class GameManager : MonoBehaviour
         TextMeshProUGUI textComp = scoreText.GetComponentInChildren<TextMeshProUGUI>();
         textComp.text = score.ToString() + "$";
         textComp.color = colour;
-        AudioManager.PlayRoundRobin(score > 0 ? scoreSFX : missSFX, 0.35f);
+        if (playSound)
+            AudioManager.PlayRoundRobin(score > 0 ? scoreSFX : missSFX, 0.3f);
         Destroy(scoreText, 2);
     }
 

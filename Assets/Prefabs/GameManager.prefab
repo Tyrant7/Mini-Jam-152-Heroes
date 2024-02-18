@@ -166,6 +166,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cf1159c244193d14fbf410980b12a682, type: 2}
   - {fileID: 11400000, guid: 6a57cf482c2758c4b8fa3a2f945fc907, type: 2}
   - {fileID: 11400000, guid: cdf0f118efde18942bae9114a79114a1, type: 2}
+  purchaseSFX: {fileID: 8300000, guid: 2c220fe1a72e2cd45b71198b33d985b4, type: 3}
 --- !u!114 &9178834652461045213
 MonoBehaviour:
   m_ObjectHideFlags: 0

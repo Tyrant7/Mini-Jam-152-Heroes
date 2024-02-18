@@ -25,6 +25,7 @@ public class UpgradeManager : MonoBehaviour
     #endregion
 
     [SerializeField] Upgrade[] allUpgrades;
+    [SerializeField] AudioClip purchaseSFX;
 
     private const int StoreSlots = 3;
 
@@ -69,6 +70,7 @@ public class UpgradeManager : MonoBehaviour
             {
                 activate.ActivateAll();
             }
+            AudioManager.PlayAudioClip(purchaseSFX);
 
             return true;
         }

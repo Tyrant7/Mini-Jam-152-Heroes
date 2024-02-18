@@ -31,7 +31,7 @@ public class Stacking : MonoBehaviour
                 sandwich.Items.Add((next, Instantiate(next.Prefab, info.point, nextRotation, sandwich.Root.transform)));
                 SetNext();
 
-                AudioManager.PlayRoundRobin(droppingSFX);
+                AudioManager.PlayRoundRobin(droppingSFX, 0.5f);
             }
 
             previewObject.Show();

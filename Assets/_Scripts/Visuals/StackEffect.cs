@@ -9,6 +9,6 @@ public class StackEffect : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         ParticleSingleton.Instance.SpawnStackParticles(collision.GetContact(0).point);
-        AudioManager.PlayRoundRobin(collisionSFX);
+        AudioManager.PlayRoundRobin(collisionSFX, 0.5f);
     }
 }
