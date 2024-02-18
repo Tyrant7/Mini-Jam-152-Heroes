@@ -56,17 +56,7 @@ public class GameManager : MonoBehaviour
     [Header("Upgrades")]
     public int TotalMoney = 0;
     private bool gameStarted = false;
-
-    private void OnEnable()
-    {
-        if (this == Instance)
-            GetComponent<SceneLoader>().OnSceneLoaded += StartDay;
-    }
-    private void OnDisable()
-    {
-        if (this == Instance)
-            GetComponent<SceneLoader>().OnSceneLoaded -= StartDay;
-    }
+    private bool postGame = false;
 
     private void Start()
     {
@@ -85,6 +75,10 @@ public class GameManager : MonoBehaviour
             {
                 Timeup();
             } 
+        }
+        else if (!postGame && SceneLoader.Instance.IsGameScene())
+        {
+            StartDay();
         }
     }
 
@@ -144,6 +138,7 @@ public class GameManager : MonoBehaviour
     private void EndDay()
     {
         gameStarted = false;
+        postGame = true;
 
         environment.stackingController.gameObject.SetActive(false);
         environment.orderSelection.gameObject.SetActive(false);
@@ -162,6 +157,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         SceneLoader.Instance.LoadScene("Day_Menu");
+        postGame = false;
     }
 
     public DayStats GetLastDayStats()

@@ -24,9 +24,6 @@ public class SceneLoader : MonoBehaviour
 
     #endregion
 
-    public delegate void SceneLoaderEventHandler();
-    public event SceneLoaderEventHandler OnSceneLoaded;
-
     [SerializeField] GameObject transitionPrefab;
     Animator transitionAnim = null;
     bool transitioning = false;
@@ -49,6 +46,11 @@ public class SceneLoader : MonoBehaviour
             return;
         }
         SceneManager.sceneLoaded -= SpawnTransitionPrefab;
+    }
+
+    public bool IsGameScene()
+    {
+        return !transitioning && SceneManager.GetActiveScene().name == "Game";
     }
 
     public void StartGame()
@@ -87,12 +89,6 @@ public class SceneLoader : MonoBehaviour
 
         transitioning = false;
         async.allowSceneActivation = true;
-
-        // Scene will only activate next frame
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
-        OnSceneLoaded?.Invoke();
     }
 
     private void SpawnTransitionPrefab(Scene scene, LoadSceneMode mode)
