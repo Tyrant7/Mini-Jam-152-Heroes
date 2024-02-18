@@ -86,4 +86,12 @@ public class CustomerVisual : MonoBehaviour
         float dist = Vector2.Distance(myPos, targetPos);
         return dist <= 0.2f;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Door"))
+        {
+            other.GetComponent<Door>().Open();
+        }
+    }
 }

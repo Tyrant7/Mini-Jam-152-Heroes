@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject scorePrefab;
 
     [Header("Days")]
-    private const int BaseCustomerCount = 4;
+    private const int BaseCustomerCount = 40;
     private const int BaseDayLength = 90;
     private const int BaseRent = 20;
     private const int RentIncrease = 10;
