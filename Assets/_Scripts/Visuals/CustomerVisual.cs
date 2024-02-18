@@ -65,11 +65,11 @@ public class CustomerVisual : MonoBehaviour
                     timeSinceLastFlavour = 0;
                     decidedFlavourInterval = Random.Range(minFlavourInterval, maxFlavourInterval);
                     anim.Play(flavourAnimationNames[Random.Range(0, flavourAnimationNames.Length)]);
-                    if (flavourAudio != null)
+                    if (flavourAudio != null && flavourAudio.Length > 0)
                     {
                         // 1 in 3 chance to play an audio clip as well
                         if (Random.Range(0, 3) == 0)
-                            AudioManager.PlayRoundRobin(flavourAudio, 0.65f);
+                            AudioManager.PlayRoundRobin(flavourAudio, 0.5f);
                     }
                 }
             }
