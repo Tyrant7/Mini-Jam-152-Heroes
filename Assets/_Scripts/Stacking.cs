@@ -63,8 +63,8 @@ public class Stacking : MonoBehaviour
         {
             Destroy(previewObject.gameObject);
         }
-        previewObject = Instantiate(previewEffectPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<StackingPreview>();
-        Instantiate(next.Prefab, Vector3.zero, nextRotation, previewObject.transform);
+        previewObject = Instantiate(previewEffectPrefab, Vector3.down * 2, Quaternion.identity, transform).GetComponent<StackingPreview>();
+        Instantiate(next.Prefab, Vector3.down * 2, nextRotation, previewObject.transform);
 
         // Disable all physics on the preview object
         Rigidbody[] rbs = previewObject.GetComponentsInChildren<Rigidbody>();

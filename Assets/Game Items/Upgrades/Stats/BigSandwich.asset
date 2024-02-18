@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Hearty Sandwiches
   Description: Bigger subs coming up!
   Cost: 100
-  Icon: {fileID: 21300000, guid: 03b433110f2b28448b112189b3a52fab, type: 3}
+  Icon: {fileID: 21300000, guid: 8a5c1689899df2d40b93680303ca9b44, type: 3}
   Unlocks: {fileID: 0}
   CustomerBonus: 0
   DayLengthBonus: 0

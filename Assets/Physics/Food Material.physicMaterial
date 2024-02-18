@@ -7,8 +7,8 @@ PhysicMaterial:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Food Material
-  dynamicFriction: 0.6
-  staticFriction: 0.5
-  bounciness: 0.1
+  dynamicFriction: 0.4
+  staticFriction: 0.45
+  bounciness: 0.65
   frictionCombine: 0
   bounceCombine: 0
