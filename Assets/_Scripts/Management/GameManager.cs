@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     [Header("Days")]
     private const int BaseCustomerCount = 4;
     private const int BaseDayLength = 90;
-    private const int BaseRent = 25;
+    private const int BaseRent = 20;
     private const int RentIncrease = 10;
     private int totalOrders = 0;
     private int totalDayLength = 0;
