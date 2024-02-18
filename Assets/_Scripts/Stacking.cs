@@ -33,10 +33,12 @@ public class Stacking : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
+                AudioManager.PlayRoundRobin(droppingSFX);
+                if (!next.DontRotate)
+                    GameManager.Instance.DisplayScore(previewObject.transform.position, next.PointValue, Color.green, false);
+
                 sandwich.Items.Add((next, Instantiate(next.Prefab, info.point, nextRotation, sandwich.Root.transform)));
                 SetNext();
-
-                AudioManager.PlayRoundRobin(droppingSFX);
             }
 
             previewObject.Show();

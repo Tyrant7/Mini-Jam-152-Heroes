@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     private const int BaseCustomerCount = 4;
     private const int BaseDayLength = 90;
     private const int BaseRent = 15;
-    private const int RentIncrease = 10;
+    private const int RentIncrease = 5;
     private int totalOrders = 0;
     private int totalDayLength = 0;
 
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
         totalDayLength = BaseDayLength + bonuses.DayLength;
         bonusOrderSize = bonuses.SandwichSize;
 
-        dailyStats = new DayStats(0, 0, 0, 0, BaseRent + (RentIncrease * pastStats.Count));
+        dailyStats = new DayStats(0, 0, 0, 0, CalculateRent());
         environment.scoreCounter.UpdateDisplay(0);
 
         environment.stackingController.gameObject.SetActive(false);
@@ -133,6 +133,33 @@ public class GameManager : MonoBehaviour
         environment.counterVisual.SetVisual(environment.lineup.GrabNext(), true);
 
         gameStarted = true;
+    }
+
+    private int CalculateRent()
+    {
+        int rent = BaseRent;
+        int roundNumber = pastStats.Count;
+        while (roundNumber > 10)
+        {
+            rent += 20;
+            roundNumber--;
+        }
+        while (roundNumber > 7)
+        {
+            rent += 15;
+            roundNumber--;
+        }
+        while (roundNumber > 4)
+        {
+            rent += 10;
+            roundNumber--;
+        }
+        while (roundNumber > 0)
+        {
+            rent += 5;
+            roundNumber--;
+        }
+        return rent;
     }
 
     public void ExitToMainMenu()
@@ -341,7 +368,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void DisplayScore(Vector3 position, int score, Color colour, bool playSound)
+    public void DisplayScore(Vector3 position, int score, Color colour, bool playSound)
     {
         GameObject scoreText = Instantiate(scorePrefab, position + new Vector3(0.5f, 0.5f, -1), Quaternion.identity);
         TextMeshProUGUI textComp = scoreText.GetComponentInChildren<TextMeshProUGUI>();
