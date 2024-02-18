@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab: {fileID: 6677544556559909395, guid: 0e401a64c1aa4664e8329360eba100b0, type: 3}
   Icon: {fileID: 21300000, guid: 07bdfe874600eff4c83bd93b779db61d, type: 3}
-  PointValue: 4
+  PointValue: 6
   DontRotate: 0
