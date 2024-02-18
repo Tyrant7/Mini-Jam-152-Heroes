@@ -6,11 +6,8 @@ public class UnlockWithUpgrade : MonoBehaviour
 {
     [SerializeField] string upgradeName;
 
-    private void Start()
+    public void ActivateIfUnlocked()
     {
-        if (!UpgradeManager.Instance.HasUnlocked(upgradeName))
-        {
-            gameObject.SetActive(false);
-        }
+        gameObject.SetActive(UpgradeManager.Instance.HasUnlocked(upgradeName));
     }
 }
