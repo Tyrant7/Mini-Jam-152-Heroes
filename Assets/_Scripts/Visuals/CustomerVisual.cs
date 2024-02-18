@@ -67,8 +67,8 @@ public class CustomerVisual : MonoBehaviour
                     anim.Play(flavourAnimationNames[Random.Range(0, flavourAnimationNames.Length)]);
                     if (flavourAudio != null && flavourAudio.Length > 0)
                     {
-                        // 1 in 3 chance to play an audio clip as well
-                        if (Random.Range(0, 3) == 0)
+                        // 1 in 2 chance to play an audio clip as well
+                        if (Random.Range(0, 2) == 0)
                             AudioManager.PlayRoundRobin(flavourAudio, 0.5f);
                     }
                 }
