@@ -33,7 +33,7 @@ public class Stacking : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                AudioManager.PlayRoundRobin(droppingSFX);
+                AudioManager.PlayRoundRobin(droppingSFX, 1.5f);
                 if (!next.DontRotate)
                     GameManager.Instance.DisplayScore(previewObject.transform.position, next.PointValue, Color.green, false);
 

@@ -16,7 +16,7 @@ public class TimeVisual : MonoBehaviour
         if (text != timerText.text)
         {
             anim.Play("Small_Bump");
-            AudioManager.PlayAudioClip(tickSFX, 0.5f);
+            AudioManager.PlayAudioClip(tickSFX, 0.6f);
         }
         timerText.text = text;
     }

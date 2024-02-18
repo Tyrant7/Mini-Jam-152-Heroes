@@ -21,7 +21,7 @@ public class OrderHint : MonoBehaviour
         hidden = false;
 
         anim.Play("Show");
-        AudioManager.PlayRoundRobin(showSFX, 1.5f);
+        AudioManager.PlayRoundRobin(showSFX, 1.7f);
         image1.sprite = left;
         image2.sprite = right;
     }
@@ -35,6 +35,6 @@ public class OrderHint : MonoBehaviour
         hidden = true;
 
         anim.Play("Hide");
-        AudioManager.PlayRoundRobin(hideSFX, 1.5f);
+        AudioManager.PlayRoundRobin(hideSFX, 1.7f);
     }
 }

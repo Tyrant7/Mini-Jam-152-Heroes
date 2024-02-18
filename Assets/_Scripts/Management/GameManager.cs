@@ -263,14 +263,7 @@ public class GameManager : MonoBehaviour
         foreach (var item in sandwich.Items)
         {
             float currentScore = 0;
-            if (item.Item2 == topBread.gameObject)
-            {
-                // Special case for top bread
-                // We'll give points based on how close it was
-                float dist = Mathf.Abs(topBread.transform.position.x - bottomBread.transform.position.x);
-                currentScore = (int)Mathf.Ceil((1f - dist) * item.Item1.PointValue);
-            }
-            else
+            if (item.Item2 != topBread.gameObject)
             {
                 // Simply check if our item is between the bread
                 Vector3 itemPos = item.Item2.transform.position;
@@ -375,7 +368,7 @@ public class GameManager : MonoBehaviour
         textComp.text = score.ToString() + "$";
         textComp.color = colour;
         if (playSound)
-            AudioManager.PlayRoundRobin(score > 0 ? scoreSFX : missSFX, 0.3f);
+            AudioManager.PlayRoundRobin(score > 0 ? scoreSFX : missSFX, 0.45f);
         Destroy(scoreText, 2);
     }
 
