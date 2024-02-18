@@ -13,7 +13,10 @@ public class GameEndScreen : MonoBehaviour
 
     private void Start()
     {
+        // Update our highscore, if valid
         GameStats stats = GameManager.Instance.GetGameStats();
+        HighscoreManager.TrySetHighscore(stats);
+
         daysSurvivedText.text = stats.DaysInBusiness.ToString();
         ordersFulfilledText.text = stats.OrdersFulfilled.ToString();
         totalMoneyMadeText.text = stats.MoneyMade.ToString() + " $";
