@@ -118,6 +118,13 @@ MonoBehaviour:
   anim: {fileID: 3086599527237526443}
   image1: {fileID: 6975314217460812961}
   image2: {fileID: 6975314215645089146}
+  showSFX:
+  - {fileID: 8300000, guid: 6d58182e923391346bf84ae31519c908, type: 3}
+  - {fileID: 8300000, guid: 7a9575ee49f41ae45b76d917e1eeb234, type: 3}
+  - {fileID: 8300000, guid: 57da2513098239f4c87db9a71f561a77, type: 3}
+  hideSFX:
+  - {fileID: 8300000, guid: 76fcc4c2e0f7ec84f9bd012ca3d126db, type: 3}
+  - {fileID: 8300000, guid: 5b6b1735f975beb4d91c3d50e437b23d, type: 3}
 --- !u!95 &3086599527237526443
 Animator:
   serializedVersion: 5

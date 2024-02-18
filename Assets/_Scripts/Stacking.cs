@@ -14,6 +14,7 @@ public class Stacking : MonoBehaviour
 
     [SerializeField] GameObject previewEffectPrefab;
     [SerializeField] GameObject sandwichRootPrefab;
+    [SerializeField] AudioClip[] droppingSFX;
 
     private void Update()
     {
@@ -29,6 +30,8 @@ public class Stacking : MonoBehaviour
             {
                 sandwich.Items.Add((next, Instantiate(next.Prefab, info.point, nextRotation, sandwich.Root.transform)));
                 SetNext();
+
+                AudioManager.PlayRoundRobin(droppingSFX);
             }
 
             previewObject.Show();

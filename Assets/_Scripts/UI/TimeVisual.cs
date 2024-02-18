@@ -7,7 +7,8 @@ using TMPro;
 public class TimeVisual : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timerText;
-    [SerializeField] Animator anim; 
+    [SerializeField] Animator anim;
+    [SerializeField] AudioClip tickSFX;
 
     public void UpdateVisual(float seconds)
     {
@@ -15,6 +16,7 @@ public class TimeVisual : MonoBehaviour
         if (text != timerText.text)
         {
             anim.Play("Small_Bump");
+            AudioManager.PlayAudioClip(tickSFX);
         }
         timerText.text = text;
     }

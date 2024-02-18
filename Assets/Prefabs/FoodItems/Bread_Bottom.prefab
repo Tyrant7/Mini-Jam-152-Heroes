@@ -235,3 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97790119fe1c2974a9f96f685b51435c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collisionSFX:
+  - {fileID: 8300000, guid: 9392047e406891341967208ce2d3c5bb, type: 3}
+  - {fileID: 8300000, guid: 31c518fc3dc859b489b16b11c523e8b2, type: 3}
+  - {fileID: 8300000, guid: c5547c0c5721368478fcff0cbcd2fe0f, type: 3}

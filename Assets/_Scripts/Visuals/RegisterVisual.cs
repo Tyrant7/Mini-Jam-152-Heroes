@@ -8,6 +8,8 @@ public class RegisterVisual : MonoBehaviour
     [SerializeField] Transform intermediatePoint;
     private CustomerVisual currentVisual;
 
+    [SerializeField] AudioClip finishSFX;
+
     private void OnEnable()
     {
         GameManager.Instance.OnSandwichCompleted += CleanupRegister;
@@ -52,6 +54,7 @@ public class RegisterVisual : MonoBehaviour
         }
         ParticleSingleton.Instance.SpawnBigParticles(currentVisual.gameObject.transform.position);
         ParticleSingleton.Instance.SpawnBigParticles(currentVisual.gameObject.transform.position + Vector3.up);
+        AudioManager.PlayAudioClip(finishSFX);
         Destroy(currentVisual.gameObject);
     }
 }

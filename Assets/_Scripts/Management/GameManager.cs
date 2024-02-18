@@ -41,6 +41,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Scoring")]
     [SerializeField] GameObject scorePrefab;
+    [SerializeField] AudioClip[] scoreSFX;
+    [SerializeField] AudioClip[] missSFX;
+    [SerializeField] AudioClip slideSFX;
+    [SerializeField] AudioClip timeoutSFX;
 
     [Header("Days")]
     private const int BaseCustomerCount = 4;
@@ -130,8 +134,9 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Out of time!");
 
-        // Timer ring, etc.
+        // Need a little animation here
 
+        AudioManager.PlayAudioClip(timeoutSFX);
         EndDay();
     }
 
@@ -278,7 +283,7 @@ public class GameManager : MonoBehaviour
             GameObject jump = Instantiate(jumpPrefab);
             pair.Item2.transform.SetParent(jump.transform);
             int score = scores.GetValueOrDefault(pair, 0);
-            DisplayScore(pair.Item2.transform.position, score, score > 0 ? Color.green : Color.red);
+            DisplayScore(pair.Item2.transform.position, score, score > 0 ? Color.green : Color.red, true);
             yield return new WaitForSeconds(0.2f);
             pair.Item2.transform.SetParent(sandwich.Root.transform);
             Destroy(jump);
@@ -289,12 +294,13 @@ public class GameManager : MonoBehaviour
 
         Animator anim = sandwich.Root.GetComponent<Animator>();
         anim.Play("Wrap_Up");
+        AudioManager.PlayAudioClip(slideSFX, 1.3f);
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => !anim.GetCurrentAnimatorStateInfo(0).IsName("Wrap_Up"));
         Destroy(sandwich.Root);
 
         ParticleSingleton.Instance.SpawnBigParticles(sandwich.Items[0].Item2.transform.position);
-        DisplayScore(sandwich.Items[0].Item2.transform.position, totalScore, Color.yellow);
+        DisplayScore(sandwich.Items[0].Item2.transform.position, totalScore, Color.yellow, false);
         OnSandwichCompleted?.Invoke();
 
         // Update stats
@@ -311,12 +317,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void DisplayScore(Vector3 position, int score, Color colour)
+    private void DisplayScore(Vector3 position, int score, Color colour, bool playSound)
     {
         GameObject scoreText = Instantiate(scorePrefab, position + new Vector3(0.5f, 0.5f, -1), Quaternion.identity);
         TextMeshProUGUI textComp = scoreText.GetComponentInChildren<TextMeshProUGUI>();
         textComp.text = score.ToString() + "$";
         textComp.color = colour;
+        AudioManager.PlayRoundRobin(score > 0 ? scoreSFX : missSFX, 0.35f);
         Destroy(scoreText, 2);
     }
 
