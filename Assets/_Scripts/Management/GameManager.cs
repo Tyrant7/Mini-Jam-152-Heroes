@@ -272,21 +272,21 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                // Simply check if our item is between
+                // Simply check if our item is between the bread
                 Vector3 itemPos = item.Item2.transform.position;
-                if ((itemPos.y >= bottomBread.rightBorder.position.y ||
-                    itemPos.y >= bottomBread.leftBorder.position.y) && 
-                    itemPos.x <= bottomBread.rightBorder.position.x && 
-                    itemPos.x >= bottomBread.leftBorder.position.x)
-                {
-                    currentScore += (float)item.Item1.PointValue / 2;
-                }
-                if ((itemPos.y <= topBread.rightBorder.position.y ||
+                bool overBottomBread = 
+                    (itemPos.y >= bottomBread.rightBorder.position.y ||
+                    itemPos.y >= bottomBread.leftBorder.position.y) &&
+                    itemPos.x <= bottomBread.rightBorder.position.x &&
+                    itemPos.x >= bottomBread.leftBorder.position.x;
+                bool underTopBread =
+                    (itemPos.y <= topBread.rightBorder.position.y ||
                     itemPos.y <= topBread.leftBorder.position.y) &&
                     itemPos.x <= topBread.rightBorder.position.x &&
-                    itemPos.x >= topBread.leftBorder.position.x)
+                    itemPos.x >= topBread.leftBorder.position.x;
+                if (overBottomBread && underTopBread)
                 {
-                    currentScore += (float)item.Item1.PointValue / 2;
+                    currentScore += item.Item1.PointValue;
                 }
             }
 
