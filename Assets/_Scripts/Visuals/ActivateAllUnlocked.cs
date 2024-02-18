@@ -15,20 +15,25 @@ public class ActivateAllUnlocked : MonoBehaviour
         foreach (UnlockWithUpgrade unlockable in unlockables)
         {
             bool unlocked = UpgradeManager.Instance.HasUnlocked(unlockable.upgradeName);
-            unlockable.gameObject.SetActive(unlocked);
-            if (unlocked && withParticles)
+
+            // Don't play particle effects again for ones we already have unlocked
+            if (unlockable.gameObject.activeInHierarchy != unlocked)
             {
-                // If this object is a group, instead spawn over each child
-                if (unlockable.transform.childCount > 0)
+                unlockable.gameObject.SetActive(unlocked);
+                if (unlocked && withParticles)
                 {
-                    foreach (Transform child in unlockable.transform)
+                    // If this object is a group, instead spawn over each child
+                    if (unlockable.transform.childCount > 0)
                     {
-                        ParticleSingleton.Instance.SpawnBigParticles(child.position);
+                        foreach (Transform child in unlockable.transform)
+                        {
+                            ParticleSingleton.Instance.SpawnBigParticles(child.position);
+                        }
                     }
-                }
-                else
-                {
-                    ParticleSingleton.Instance.SpawnBigParticles(unlockable.transform.position);
+                    else
+                    {
+                        ParticleSingleton.Instance.SpawnBigParticles(unlockable.transform.position);
+                    }
                 }
             }
         }
