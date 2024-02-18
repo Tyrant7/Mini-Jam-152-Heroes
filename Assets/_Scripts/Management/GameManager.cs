@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
     [Header("Days")]
     private const int BaseCustomerCount = 4;
     private const int BaseDayLength = 120;
+    private const int BaseRent = 20;
+    private const int RentIncrease = 10;
     private int totalOrders = 0;
     private int totalDayLength = 0;
 
@@ -54,9 +56,15 @@ public class GameManager : MonoBehaviour
     public int TotalMoney = 0;
     private bool gameStarted = false;
 
-    private void Start()
+    private void OnEnable()
     {
-        StartDay();
+        if (this == Instance)
+            GetComponent<SceneLoader>().OnSceneLoaded += StartDay;
+    }
+    private void OnDisable()
+    {
+        if (this == Instance)
+            GetComponent<SceneLoader>().OnSceneLoaded -= StartDay;
     }
 
     private void Update()
@@ -77,7 +85,16 @@ public class GameManager : MonoBehaviour
 
     private void StartDay()
     {
+        Debug.Log("Starting day!");
+
+        // If this is a menu scene this check will fail and the day will not start -> what we intended
         environment = FindObjectOfType<GameRuntimeObjects>();
+        if (environment == null)
+        {
+            Debug.Log("No envrioment");
+
+            return;
+        }
 
         UpgradeBonuses bonuses = UpgradeManager.Instance.GetUpgradeBonuses();
         totalOrders = BaseCustomerCount + bonuses.CustomerBonus;
@@ -93,7 +110,7 @@ public class GameManager : MonoBehaviour
 
         totalDayLength = BaseDayLength + bonuses.DayLength;
 
-        dailyStats = new DayStats(0, 0, 0, 0);
+        dailyStats = new DayStats(0, 0, 0, 0, BaseRent + (RentIncrease * pastStats.Count));
         environment.scoreCounter.UpdateDisplay(0);
 
         environment.stackingController.gameObject.SetActive(false);
@@ -125,7 +142,7 @@ public class GameManager : MonoBehaviour
         pastStats.Add(dailyStats);
 
         // Update money for upgrade purchasing
-        TotalMoney += dailyStats.Score;
+        TotalMoney += dailyStats.Score - dailyStats.Rent;
 
         StartCoroutine(EndDayAnimation());
     }
@@ -144,6 +161,17 @@ public class GameManager : MonoBehaviour
     public int GetDayNumber()
     {
         return pastStats.Count;
+    }
+
+    public GameStats GetGameStats()
+    {
+        GameStats stats = new GameStats(pastStats.Count, 0, 0);
+        foreach (DayStats stat in pastStats)
+        {
+            stats.MoneyMade += stat.Score;
+            stats.OrdersFulfilled += stat.OrdersFulfilled;
+        }
+        return stats;
     }
 
     #endregion

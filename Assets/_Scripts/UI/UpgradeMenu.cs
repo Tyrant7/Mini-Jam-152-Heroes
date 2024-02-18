@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UpgradeMenu : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class UpgradeMenu : MonoBehaviour
     [Header("Upgrade Menu")]
     [SerializeField] Transform anchor;
     [SerializeField] GameObject upgradePrefab;
+    [SerializeField] TextMeshProUGUI moneyText;
 
     private void Start()
     {
@@ -20,6 +22,7 @@ public class UpgradeMenu : MonoBehaviour
             UpgradeDisplay d = g.GetComponent<UpgradeDisplay>();
             d.Display(upgrade, this);
         }
+        moneyText.text = GameManager.Instance.TotalMoney.ToString() + " $";
     }
 
     public void PurchaseUpgrade(UpgradeDisplay clickedDisplay)
@@ -28,6 +31,7 @@ public class UpgradeMenu : MonoBehaviour
         {
             Destroy(clickedDisplay.gameObject);
         }
+        moneyText.text = GameManager.Instance.TotalMoney.ToString() + " $";
     }
 
     public void StartNextDay()

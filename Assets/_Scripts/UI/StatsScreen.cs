@@ -9,14 +9,16 @@ public class StatsScreen : MonoBehaviour
 {
     [Header("Scenes")]
     [SerializeField] string upgradeSceneName;
+    [SerializeField] string lossSceneName;
 
     [Header("Stats Menu")]
     [SerializeField] TextMeshProUGUI dayText;
     [SerializeField] TextMeshProUGUI ordersFulfilledText;
     [SerializeField] TextMeshProUGUI accuracyText;
     [SerializeField] TextMeshProUGUI timeText;
-    [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] TextMeshProUGUI gradeText;
+    [SerializeField] TextMeshProUGUI rentText;
+    [SerializeField] TextMeshProUGUI earningsText;
+    [SerializeField] TextMeshProUGUI totalText;
 
     private void Start()
     {
@@ -26,17 +28,18 @@ public class StatsScreen : MonoBehaviour
         ordersFulfilledText.text = stats.OrdersFulfilled.ToString();
         accuracyText.text        = Mathf.Ceil(stats.Accuracy * 100).ToString() + " %";
         timeText.text            = TimeSpan.FromSeconds(stats.Time).ToString(@"mm\:ss");
-        scoreText.text           = stats.Score.ToString() + " $";
-        gradeText.text           = GetGrade(stats);
-    }
-
-    private string GetGrade(DayStats stats)
-    {
-        return "C";
+        rentText.text            = stats.Rent.ToString() + " $";
+        earningsText.text        = stats.Score.ToString() + " $";
+        totalText.text           = GameManager.Instance.TotalMoney + " $";
     }
 
     public void Continue()
     {
+        if (GameManager.Instance.TotalMoney <= 0)
+        {
+            SceneLoader.Instance.LoadScene(lossSceneName);
+            return;
+        }
         SceneLoader.Instance.LoadScene(upgradeSceneName);
     }
 }
@@ -47,12 +50,14 @@ public struct DayStats
     public float Accuracy;
     public float Time;
     public int Score;
+    public int Rent;
 
-    public DayStats(int ordersFulfilled, float accuracy, float time, int score)
+    public DayStats(int ordersFulfilled, float accuracy, float time, int score, int rent)
     {
         this.OrdersFulfilled = ordersFulfilled;
         this.Accuracy = accuracy;
         this.Time = time;
         this.Score = score;
+        this.Rent = rent;
     }
 }
