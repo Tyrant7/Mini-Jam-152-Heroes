@@ -75,7 +75,7 @@ public class OrderManager
             if (i >= maxSequence)
             {
                 bool onlyOneType = true;
-                for (int j = i; j > i - maxSequence; j--)
+                for (int j = i - 1; j > i - maxSequence; j--)
                 {
                     if (next != foods[j])
                     {

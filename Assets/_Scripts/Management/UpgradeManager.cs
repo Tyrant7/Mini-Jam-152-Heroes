@@ -68,7 +68,7 @@ public class UpgradeManager : MonoBehaviour
             ActivateAllUnlocked activate = FindObjectOfType<ActivateAllUnlocked>();
             if (activate != null)
             {
-                activate.ActivateAll();
+                activate.ActivateAll(true);
             }
             AudioManager.PlayAudioClip(purchaseSFX);
 
