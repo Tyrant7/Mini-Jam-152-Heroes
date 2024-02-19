@@ -35,7 +35,7 @@ public class SoundtrackManager : MonoBehaviour
 
     [SerializeField] Soundtrack[] soundtracks;
 
-    [SerializeField] Queue<Soundtrack> queue = new Queue<Soundtrack>();
+    private Queue<Soundtrack> queue = new Queue<Soundtrack>();
 
     private void Start()
     {
