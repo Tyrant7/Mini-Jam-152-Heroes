@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Greenery
   Description: Greenery attracts many customers!
   Cost: 75
-  Icon: {fileID: 21300000, guid: f4fb58c5f4c252845a84538e8bc60ad9, type: 3}
+  Icon: {fileID: 21300000, guid: 96b6cc23f5f3db04f963499a2bc25848, type: 3}
   Unlocks: {fileID: 0}
   CustomerBonus: 2
   DayLengthBonus: 0
