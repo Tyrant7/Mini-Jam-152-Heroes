@@ -64,13 +64,14 @@ public class SceneLoader : MonoBehaviour
         LoadScene("Main_Menu");
     }
 
-    public void LoadScene(string sceneName)
+    public void LoadScene(string sceneName, bool playSound = true)
     {
         if (transitioning)
         {
             return;
         }
-        AudioManager.PlayButtonClick();
+        if (playSound)
+            AudioManager.PlayButtonClick();
 
         // The game should never be paused after loading a new scene
         Time.timeScale = 1;

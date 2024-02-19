@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Days")]
     private const int BaseCustomerCount = 4;
-    private const int BaseDayLength = 90;
+    private const int BaseDayLength = 75;
     private const int BaseRent = 15;
     private const int RentIncrease = 5;
     private int totalOrders = 0;
@@ -141,15 +141,20 @@ public class GameManager : MonoBehaviour
         int roundNumber = pastStats.Count;
         while (roundNumber > 10)
         {
-            rent += 20;
+            rent += 25;
             roundNumber--;
         }
         while (roundNumber > 7)
         {
-            rent += 15;
+            rent += 20;
             roundNumber--;
         }
         while (roundNumber > 4)
+        {
+            rent += 15;
+            roundNumber--;
+        }
+        while (roundNumber > 2)
         {
             rent += 10;
             roundNumber--;
@@ -199,7 +204,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator EndDayAnimation()
     {
         yield return new WaitForSeconds(1f);
-        SceneLoader.Instance.LoadScene("Day_Menu");
+        SceneLoader.Instance.LoadScene("Day_Menu", false);
         postGame = false;
     }
 
