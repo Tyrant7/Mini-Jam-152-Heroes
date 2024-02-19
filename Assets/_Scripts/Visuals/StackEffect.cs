@@ -15,7 +15,7 @@ public class StackEffect : MonoBehaviour
         if (Time.time - lastSoundTime >= minSoundInterval)
         {
             lastSoundTime = Time.time;
-            AudioManager.PlayRoundRobin(collisionSFX, 0.75f);
+            AudioManager.PlayRoundRobin(collisionSFX, 0.4f);
         }
     }
 }

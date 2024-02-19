@@ -70,6 +70,7 @@ public class SceneLoader : MonoBehaviour
         {
             return;
         }
+        AudioManager.PlayButtonClick();
 
         // The game should never be paused after loading a new scene
         Time.timeScale = 1;
